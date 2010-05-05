@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-<book id="lartc">
+<book lang="en">
+  <title>Linux Advanced Routing &amp; Traffic Control HOWTO</title>
   <bookinfo>
-    <title>Linux Advanced Routing &amp; Traffic Control HOWTO</title>
     <authorgroup>
       <author>
 	<firstname>Bert</firstname>
@@ -344,14 +344,14 @@
 	which is good too.
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	$ export CVSROOT=:pserver:anon@outpost.ds9a.nl:/var/cvsroot
 	$ cvs login
 	CVS password: [enter 'cvs' (without 's)]
 	$ cvs co 2.4routing
 	cvs server: Updating 2.4routing
 	U 2.4routing/lartc.db
-      </Screen>
+      </screen>
 
       <para>
 	If you made changes and want to contribute them, run <userinput>
@@ -534,7 +534,7 @@
       <section>
 	<title><command>ip</command> shows us our links</title>
 
-	<Screen width="80">
+	<screen width="80">
 	  [ahu@home ahu]$ ip link list
 	  1: lo: &#60;LOOPBACK,UP&#62; mtu 3924 qdisc noqueue
 	  link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -546,7 +546,7 @@
 	  link/ether 00:e0:4c:39:24:78 brd ff:ff:ff:ff:ff:ff
 	  3764: ppp0: &#60;POINTOPOINT,MULTICAST,NOARP,UP&#62; mtu 1492 qdisc pfifo_fast qlen 10
 	  link/ppp
-	</Screen>
+	</screen>
 
 	<para>
 	  Your mileage may vary, but this is what it shows on my NAT
@@ -587,7 +587,7 @@
       <section>
 	<title><command>ip</command> shows us our IP addresses</title>
 
-	<Screen width="80">
+	<screen width="80">
 	  [ahu@home ahu]$ ip address show
 	  1: lo: &#60;LOOPBACK,UP&#62; mtu 3924 qdisc noqueue
 	  link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
@@ -602,7 +602,7 @@
 	  3764: ppp0: &#60;POINTOPOINT,MULTICAST,NOARP,UP&#62; mtu 1492 qdisc pfifo_fast qlen 10
 	  link/ppp
 	  inet 212.64.94.251 peer 212.64.94.1/32 scope global ppp0
-	</Screen>
+	</screen>
 
 	<para>
 	  This contains more information. It shows all our addresses,
@@ -661,13 +661,13 @@
 	  and deliver results back to us.
 	</para>
 
-	<Screen width="80">
+	<screen width="80">
 	  [ahu@home ahu]$ ip route show
 	  212.64.94.1 dev ppp0  proto kernel  scope link  src 212.64.94.251
 	  10.0.0.0/8 dev eth0  proto kernel  scope link  src 10.0.0.1
 	  127.0.0.0/8 dev lo  scope link
 	  default via 212.64.94.1 dev ppp0
-	</Screen>
+	</screen>
 
 	<para>
 	  This is pretty much self explanatory. The first 3 lines of
@@ -684,7 +684,7 @@
 	  utility shows us:
 	</para>
 
-	<Screen width="80">
+	<screen width="80">
 	  [ahu@home ahu]$ route -n
 	  Kernel IP routing table
 	  Destination     Gateway         Genmask         Flags Metric Ref    Use
@@ -693,7 +693,7 @@
 	  10.0.0.0        0.0.0.0         255.0.0.0       U     0      0        0 eth0
 	  127.0.0.0       0.0.0.0         255.0.0.0       U     0      0        0 lo
 	  0.0.0.0         212.64.94.1     0.0.0.0         UG    0      0        0 ppp0
-	</Screen>
+	</screen>
 
       </section>
     </section>
@@ -737,11 +737,11 @@
 	current arp/neighbor cache/table like so:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	[root@espa041 /home/src/iputils]# ip neigh show
 	9.3.76.42 dev eth0 lladdr 00:60:08:3f:e9:f9 nud reachable
 	9.3.76.1 dev eth0 lladdr 00:06:29:21:73:c8 nud reachable
-      </Screen>
+      </screen>
 
       <para>
 	As you can see my machine espa041 (9.3.76.41) knows where to
@@ -749,7 +749,7 @@
 	another machine to the arp cache.
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	[root@espa041 /home/paulsch/.gnome-desktop]# ping -c 1 espa043
 	PING espa043.austin.ibm.com (9.3.76.43) from 9.3.76.41 : 56(84) bytes of data.
 	64 bytes from 9.3.76.43: icmp_seq=0 ttl=255 time=0.9 ms
@@ -762,7 +762,7 @@
 	9.3.76.43 dev eth0 lladdr 00:06:29:21:80:20 nud reachable
 	9.3.76.42 dev eth0 lladdr 00:60:08:3f:e9:f9 nud reachable
 	9.3.76.1 dev eth0 lladdr 00:06:29:21:73:c8 nud reachable
-      </Screen>
+      </screen>
 
       <para>
 	As a result of espa041 trying to contact espa043, espa043's
@@ -776,13 +776,13 @@
 	Now let's delete espa043 from our arp cache:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	[root@espa041 /home/src/iputils]# ip neigh delete 9.3.76.43 dev eth0
 	[root@espa041 /home/src/iputils]# ip neigh show
 	9.3.76.43 dev eth0  nud failed
 	9.3.76.42 dev eth0 lladdr 00:60:08:3f:e9:f9 nud reachable
 	9.3.76.1 dev eth0 lladdr 00:06:29:21:73:c8 nud stale
-      </Screen>
+      </screen>
 
       <para>
 	Now espa041 has again forgotten where to find espa043 and will
@@ -823,12 +823,12 @@
       The default rules:
     </para>
 
-    <Screen width="80">
+    <screen width="80">
       [ahu@home ahu]$ ip rule list
       0:	from all lookup local
       32766:	from all lookup main
       32767:	from all lookup default
-    </Screen>
+    </screen>
 
     <para>
       This lists the priority of all rules. We see that all rules apply
@@ -870,7 +870,7 @@
 	The local table:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	[ahu@home ahu]$ ip route list table local
 	broadcast 127.255.255.255 dev lo  proto kernel  scope link  src 127.0.0.1
 	local 10.0.0.1 dev eth0  proto kernel  scope host  src 10.0.0.1
@@ -881,7 +881,7 @@
 	local 212.64.78.148 dev ppp2  proto kernel  scope host  src 212.64.78.148
 	local 127.0.0.1 dev lo  proto kernel  scope host  src 127.0.0.1
 	local 127.0.0.0/8 dev lo  proto kernel  scope host  src 127.0.0.1
-      </Screen>
+      </screen>
 
       <para>
 	Lots of obvious things, but things that need to be specified
@@ -891,14 +891,14 @@
       <para>Let's view the 'main' table:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	[ahu@home ahu]$ ip route list table main
 	195.96.98.253 dev ppp2  proto kernel  scope link  src 212.64.78.148
 	212.64.94.1 dev ppp0  proto kernel  scope link  src 212.64.94.251
 	10.0.0.0/8 dev eth0  proto kernel  scope link  src 10.0.0.1
 	127.0.0.0/8 dev lo  scope link
 	default via 212.64.94.1 dev ppp0
-      </Screen>
+      </screen>
 
       <para>
 	We now generate a new rule which we call 'John', for our
@@ -906,7 +906,7 @@
 	it's far easier if we add our tables to /etc/iproute2/rt_tables.
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	# echo 200 John &#62;&#62; /etc/iproute2/rt_tables
 	# ip rule add from 10.0.0.10 table John
 	# ip rule ls
@@ -914,17 +914,17 @@
 	32765:	from 10.0.0.10 lookup John
 	32766:	from all lookup main
 	32767:	from all lookup default
-      </Screen>
+      </screen>
 
       <para>
 	Now all that is left is to generate John's table, and flush the
 	route cache:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	# ip route add default via 195.96.98.253 dev ppp2 table John
 	# ip route flush cache
-      </Screen>
+      </screen>
 
       <para>
 	And we are done. It is left as an exercise for the reader to
@@ -1127,7 +1127,7 @@
 	stuff. They can also make things go horribly wrong when you
 	don't configure them right.  Don't point your default route to a
 	tunnel device unless you know
-	<Emphasis>EXACTLY</Emphasis> what you are doing :-).
+	<emphasis>EXACTLY</emphasis> what you are doing :-).
 	Furthermore, tunneling increases overhead, because it needs an
 	extra set of IP headers. Typically this is 20 bytes per packet,
 	so if the normal packet size (MTU) on a network is 1500 bytes, a
@@ -1154,11 +1154,11 @@
 	network A:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	network 10.0.1.0
 	netmask 255.255.255.0
 	router  10.0.1.1
-      </Screen>
+      </screen>
 
       <para>
 	The router has address 172.16.17.18 on network C.
@@ -1168,11 +1168,11 @@
 	and network B:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	network 10.0.2.0
 	netmask 255.255.255.0
 	router  10.0.2.1
-      </Screen>
+      </screen>
 
       <para>
 	The router has address 172.19.20.21 on network C.
@@ -1192,36 +1192,36 @@
 	First, make sure the modules are installed:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	insmod ipip.o
 	insmod new_tunnel.o
-      </Screen>
+      </screen>
 
       <para>
 	Then, on the router of network A, you do the following:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	ifconfig tunl0 10.0.1.1 pointopoint 172.19.20.21
 	route add -net 10.0.2.0 netmask 255.255.255.0 dev tunl0
-      </Screen>
+      </screen>
 
       <para>
 	And on the router of network B:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	ifconfig tunl0 10.0.2.1 pointopoint 172.16.17.18
 	route add -net 10.0.1.0 netmask 255.255.255.0 dev tunl0
-      </Screen>
+      </screen>
 
       <para>
 	And if you're finished with your tunnel:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	ifconfig tunl0 down
-      </Screen>
+      </screen>
 
       <para>
 	Presto, you're done. You can't forward broadcast or IPv6 traffic
@@ -1265,11 +1265,11 @@
 	<para>
 	  So we have network A:
 
-	  <Screen width="80">
+	  <screen width="80">
 	    network 10.0.1.0
 	    netmask 255.255.255.0
 	    router  10.0.1.1
-	  </Screen>
+	  </screen>
 
 	  The router has address 172.16.17.18 on network C.
 	  Let's call this network neta (ok, hardly original)
@@ -1278,11 +1278,11 @@
 	<para>
 	  and network B:
 
-	  <Screen width="80">
+	  <screen width="80">
 	    network 10.0.2.0
 	    netmask 255.255.255.0
 	    router  10.0.2.1
-	  </Screen>
+	  </screen>
 
 	  The router has address 172.19.20.21 on network C.
 	  Let's call this network netb (still not original)
@@ -1298,12 +1298,12 @@
 	  On the router of network A, you do the following:
 	</para>
 
-	<Screen width="80">
+	<screen width="80">
 	  ip tunnel add netb mode gre remote 172.19.20.21 local 172.16.17.18 ttl 255
 	  ip link set netb up
 	  ip addr add 10.0.1.1 dev netb
 	  ip route add 10.0.2.0/24 dev netb
-	</Screen>
+	</screen>
 
 	<para>
 	  Let's discuss this for a bit. In line 1, we added a tunnel
@@ -1343,19 +1343,19 @@
 	  But enough about this, let's go on with the router of network
 	  B.
 
-	  <Screen>
+	  <screen>
 	    ip tunnel add neta mode gre remote 172.16.17.18 local 172.19.20.21 ttl 255
 	    ip link set neta up
 	    ip addr add 10.0.2.1 dev neta
 	    ip route add 10.0.1.0/24 dev neta
-	  </Screen>
+	  </screen>
 
 	  And when you want to remove the tunnel on router A:
 
-	  <Screen>
+	  <screen>
 	    ip link set netb down
 	    ip tunnel del netb
-	  </Screen>
+	  </screen>
 
 	  Of course, you can replace netb with neta for router B.
 	</para>
@@ -1379,9 +1379,9 @@
 
 	<para>
 
-	  <Screen>
+	  <screen>
 	    Network 3ffe:406:5:1:5:a:2:1/96
-	  </Screen>
+	  </screen>
 
 	  Your IPv4 address is 172.16.17.18, and the 6bone router has
 	  IPv4 address 172.22.23.24.
@@ -1389,12 +1389,12 @@
 
 	<para>
 
-	  <Screen>
+	  <screen>
 	    ip tunnel add sixbone mode sit remote 172.22.23.24 local 172.16.17.18 ttl 255
 	    ip link set sixbone up
 	    ip addr add 3ffe:406:5:1:5:a:2:1/96 dev sixbone
 	    ip route add 3ffe::/15 dev sixbone
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -1640,12 +1640,12 @@
 	IPv4 address 145.100.1.5
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	# ip tunnel add sixbone mode sit remote 145.100.1.5 [local 145.100.24.181 ttl 255]
 	# ip link set sixbone up
 	# ip addr add 3FFE:604:6:7::2/126 dev sixbone
 	# ip route add 3ffe::0/16 dev sixbone
-      </Screen>
+      </screen>
 
       <para>
 	Let's discuss this. In the first line, we created a tunnel
@@ -1662,10 +1662,10 @@
 	adding the following lines:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	# echo 1 &#62;/proc/sys/net/ipv6/conf/all/forwarding
 	# /usr/local/sbin/radvd
-      </Screen>
+      </screen>
 
       <para>
 	The latter, radvd is -like zebra- a router advertisement daemon,
@@ -1674,9 +1674,9 @@
 	like this:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	# /sbin/ip -f inet6 addr
-      </Screen>
+      </screen>
 
       <para>
 	If you happen to have radvd running on your IPv6 gateway and
@@ -1684,7 +1684,7 @@
 	would be able to enjoy the benefits of IPv6 autoconfiguration:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	# /sbin/ip -f inet6 addr
 	1: lo: &lt;LOOPBACK,UP&gt; mtu 3924 qdisc noqueue inet6 ::1/128 scope host
 
@@ -1692,7 +1692,7 @@
 	inet6 3ffe:604:6:8:5054:4cff:fe01:e3d6/64 scope global dynamic
 	valid_lft forever preferred_lft 604646sec inet6 fe80::5054:4cff:fe01:e3d6/10
 	scope link
-      </Screen>
+      </screen>
 
       <para>
 	You could go ahead and configure your bind for IPv6
@@ -1711,7 +1711,7 @@
       <para>
 	On the Cisco side the configuration would be something like this:
 
-	<Screen>
+	<screen>
 	  !
 	  interface Tunnel1
 	  description IPv6 tunnel
@@ -1723,7 +1723,7 @@
 	  tunnel mode ipv6ip
 	  !
 	  ipv6 route 3FFE:604:6:8::/64 Tunnel1
-	</Screen>
+	</screen>
 
 	But if you don't have a Cisco at your disposal, try one of the
 	many IPv6 tunnel brokers available on the Internet. They are
@@ -2781,7 +2781,7 @@
     <para>
       At this point, you may be wondering if this is ever going to do anything. So,
       to test our connection, we ping the default group, 224.0.0.1, to see if anyone
-      is alive. All machines on your LAN with multicasting enabled <Emphasis>should</Emphasis>
+      is alive. All machines on your LAN with multicasting enabled <emphasis>should</emphasis>
       respond, but nothing else. You'll notice that none of the machines that
       respond have an IP address of 224.0.0.1. What a surprise! :) This is a group
       address (a "broadcast" to subscribers), and all members of the group will
@@ -2807,7 +2807,7 @@
     <title>Queueing Disciplines for Bandwidth Management</title>
 
     <para>
-      Now, when I discovered this, it <Emphasis>really</Emphasis> blew me away. Linux 2.2/2.4
+      Now, when I discovered this, it <emphasis>really</emphasis> blew me away. Linux 2.2/2.4
       comes with everything to manage bandwidth in ways comparable to high-end
       dedicated bandwidth management systems.
     </para>
@@ -2840,7 +2840,7 @@
       <title>Queues and Queueing Disciplines explained</title>
 
       <para>
-	With queueing we determine the way in which data is <Emphasis>SENT</Emphasis>.
+	With queueing we determine the way in which data is <emphasis>SENT</emphasis>.
 	It is important to realise that we can only shape data that we transmit.
       </para>
 
@@ -2946,19 +2946,19 @@
 		  </para>
 
 		  <para>
-		    <Screen>
+		    <screen>
 		      0     1     2     3     4     5     6     7
 		      +-----+-----+-----+-----+-----+-----+-----+-----+
 		      |                 |                       |     |
 		      |   PRECEDENCE    |          TOS          | MBZ |
 		      |                 |                       |     |
 		      +-----+-----+-----+-----+-----+-----+-----+-----+
-		    </Screen>
+		    </screen>
 		  </para>
 
 		  <para>
 		    The four TOS bits (the 'TOS field') are defined as:
-		    <Screen>
+		    <screen>
 		      Binary Decimcal  Meaning
 		      -----------------------------------------
 		      1000   8         Minimize delay (md)
@@ -2966,7 +2966,7 @@
 		      0010   2         Maximize reliability (mr)
 		      0001   1         Minimize monetary cost (mmc)
 		      0000   0         Normal Service
-		    </Screen>
+		    </screen>
 		  </para>
 
 		  <para>
@@ -2979,7 +2979,7 @@
 		  </para>
 
 		  <para>
-		    <Screen>
+		    <screen>
 		      TOS     Bits  Means                    Linux Priority    Band
 		      ------------------------------------------------------------
 		      0x0     0     Normal Service           0 Best Effort     1
@@ -2998,7 +2998,7 @@
 		      0x1a    13    mmc+mt+md                4 Int. Bulk       1
 		      0x1c    14    mr+mt+md                 4 Int. Bulk       1
 		      0x1e    15    mmc+mr+mt+md             4 Int. Bulk       1
-		    </Screen>
+		    </screen>
 		  </para>
 
 		  <para>
@@ -3017,9 +3017,9 @@
 		    The last column shows the result of the default priomap. On the command line,
 		    the default priomap looks like this:
 
-		    <Screen>
+		    <screen>
 		      1, 2, 2, 2, 1, 2, 0, 0 , 1, 1, 1, 1, 1, 1, 1, 1
-		    </Screen>
+		    </screen>
 
 		  </para>
 
@@ -3033,7 +3033,7 @@
 		    This table from RFC 1349 (read it for more details) tells you how
 		    applications might very well set their TOS bits:
 
-		    <Screen>
+		    <screen>
 		      TELNET                   1000           (minimize delay)
 		      FTP
 		      Control          1000           (minimize delay)
@@ -3056,7 +3056,7 @@
 		      Errors           0000
 		      Requests         0000 (mostly)
 		      Responses        &#60;same as request&#62; (mostly)
-		    </Screen>
+		    </screen>
 		  </para>
 		</listitem>
 	      </varlistentry>
@@ -3111,7 +3111,7 @@
 	  <itemizedlist>
 	    <listitem>
 	      <para>
-		The data arrives in TBF at a rate that's <Emphasis>equal</Emphasis> to the rate
+		The data arrives in TBF at a rate that's <emphasis>equal</emphasis> to the rate
 		of incoming tokens. In this case each incoming packet has its matching token
 		and passes the queue without delay.
 	      </para>
@@ -3119,7 +3119,7 @@
 
 	    <listitem>
 	      <para>
-		The data arrives in TBF at a rate that's <Emphasis>smaller</Emphasis> than the
+		The data arrives in TBF at a rate that's <emphasis>smaller</emphasis> than the
 		token rate. Only a part of the tokens are deleted at output of each data packet
 		that's sent out the queue, so the tokens accumulate, up to the bucket size.
 		The unused tokens can then be used to send data at a speed that's exceeding the
@@ -3129,7 +3129,7 @@
 
 	    <listitem>
 	      <para>
-		The data arrives in TBF at a rate <Emphasis>bigger</Emphasis> than the token rate.
+		The data arrives in TBF at a rate <emphasis>bigger</emphasis> than the token rate.
 		This means that the bucket will soon be devoid of tokens, which causes the
 		TBF to throttle itself for a while. This is called an 'overlimit situation'.
 		If packets keep coming in, packets will start to get dropped.
@@ -3273,9 +3273,9 @@
 
 	  <para>
 	    A simple but *very* useful configuration is this:
-	    <Screen>
+	    <screen>
 	      # tc qdisc add dev ppp0 root tbf rate 220kbit latency 50ms burst 1540
-	    </Screen>
+	    </screen>
 	  </para>
 
 	  <para>
@@ -3397,12 +3397,12 @@
 	    If you have a device which has identical link speed and actual available
 	    rate, like a phone modem, this configuration will help promote fairness:
 
-	    <Screen>
+	    <screen>
 	      # tc qdisc add dev ppp0 root sfq perturb 10
 	      # tc -s -d qdisc ls
 	      qdisc sfq 800c: dev ppp0 quantum 1514b limit 128p flows 128/1024 perturb 10sec
 	      Sent 4812 bytes 62 pkts (dropped 0, overlimits 0)
-	    </Screen>
+	    </screen>
 
 	  </para>
 
@@ -3636,7 +3636,7 @@
 
       <para>
 
-	<Screen width="80">
+	<screen width="80">
 	  Userspace programs
 	  ^
 	  |
@@ -3658,7 +3658,7 @@
 	  |                                            \-qdiscN_/   |
 	  |                                                         |
 	  +----------------------------------------------------------+
-	</Screen>
+	</screen>
 
 	Thanks to Jamal Hadi Salim for this ASCII representation.
       </para>
@@ -3787,7 +3787,7 @@
 	  <para>
 	    Recapping, a typical hierarchy might look like this:
 
-	    <Screen>
+	    <screen>
 	      1:   root qdisc
 	      |
 	      1:1    child class
@@ -3802,7 +3802,7 @@
 	      10:         12:   qdisc
 	      /   \       /   \
 	      10:1  10:2   12:1  12:2   leaf classes
-	    </Screen>
+	    </screen>
 
 	  </para>
 
@@ -3951,7 +3951,7 @@
 	  <para>
 	    We will create this tree:
 
-	    <Screen>
+	    <screen>
 	      1:   root qdisc
 	      / | \
 	      /   |   \
@@ -3961,7 +3961,7 @@
 	      10:  20:  30:    qdiscs    qdiscs
 	      sfq  tbf  sfq
 	      band  0    1    2
-	    </Screen>
+	    </screen>
 
 	  </para>
 
@@ -3972,21 +3972,21 @@
 	  <para>
 	    Command lines:
 
-	    <Screen>
+	    <screen>
 	      # tc qdisc add dev eth0 root handle 1: prio
 	      ## This *instantly* creates classes 1:1, 1:2, 1:3
 
 	      # tc qdisc add dev eth0 parent 1:1 handle 10: sfq
 	      # tc qdisc add dev eth0 parent 1:2 handle 20: tbf rate 20kbit buffer 1600 limit 3000
 	      # tc qdisc add dev eth0 parent 1:3 handle 30: sfq
-	    </Screen>
+	    </screen>
 
 	  </para>
 
 	  <para>
 	    Now let's see what we created:
 
-	    <Screen>
+	    <screen>
 	      # tc -s qdisc ls dev eth0
 	      qdisc sfq 30: quantum 1514b
 	      Sent 0 bytes 0 pkts (dropped 0, overlimits 0)
@@ -3999,7 +3999,7 @@
 
 	      qdisc prio 1: bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
 	      Sent 174 bytes 3 pkts (dropped 0, overlimits 0)
-	    </Screen>
+	    </screen>
 
 	    As you can see, band 0 has already had some traffic, and one packet was sent
 	    while running this command!
@@ -4009,7 +4009,7 @@
 	    We now do some bulk data transfer with a tool that properly sets TOS flags,
 	    and take another look:
 
-	    <Screen>
+	    <screen>
 	      # scp tc ahu@10.0.0.11:./
 	      ahu@10.0.0.11's password:
 	      tc                   100% |*****************************|   353 KB    00:00
@@ -4025,7 +4025,7 @@
 
 	      qdisc prio 1: bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
 	      Sent 389140 bytes 326 pkts (dropped 0, overlimits 0)
-	    </Screen>
+	    </screen>
 
 	    As you can see, all traffic went to handle 30:, which is the lowest priority
 	    band, just as intended. Now to verify that interactive traffic goes to
@@ -4034,7 +4034,7 @@
 
 	  <para>
 
-	    <Screen>
+	    <screen>
 	      # tc -s qdisc ls dev eth0
 	      qdisc sfq 30: quantum 1514b
 	      Sent 384228 bytes 274 pkts (dropped 0, overlimits 0)
@@ -4047,7 +4047,7 @@
 
 	      qdisc prio 1: bands 3 priomap  1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
 	      Sent 401836 bytes 488 pkts (dropped 0, overlimits 0)
-	    </Screen>
+	    </screen>
 
 	  </para>
 
@@ -4377,7 +4377,7 @@
 
 	<section>
 	  <title>Sample configuration</title>
-	  <Screen>
+	  <screen>
 
 	    1:           root qdisc
 	    |
@@ -4388,20 +4388,20 @@
 	    |       |
 	    30:     40:       qdiscs
 	    (sfq)   (sfq)
-	  </Screen>
+	  </screen>
 
 	  <para>
 	    This configuration limits webserver traffic to 5mbit and SMTP traffic to 3
 	    mbit. Together, they may not get more than 6mbit. We have a 100mbit NIC and
 	    the classes may borrow bandwidth from each other.
 
-	    <Screen>
+	    <screen>
 	      # tc qdisc add dev eth0 root handle 1:0 cbq bandwidth 100Mbit         \
 	      avpkt 1000 cell 8
 	      # tc class add dev eth0 parent 1:0 classid 1:1 cbq bandwidth 100Mbit  \
 	      rate 6Mbit weight 0.6Mbit prio 8 allot 1514 cell 8 maxburst 20      \
 	      avpkt 1000 bounded
-	    </Screen>
+	    </screen>
 
 	    This part installs the root and the customary 1:1 class. The 1:1 class is
 	    bounded, so the total bandwidth can't exceed 6mbit.
@@ -4414,14 +4414,14 @@
 
 	  <para>
 
-	    <Screen>
+	    <screen>
 	      # tc class add dev eth0 parent 1:1 classid 1:3 cbq bandwidth 100Mbit  \
 	      rate 5Mbit weight 0.5Mbit prio 5 allot 1514 cell 8 maxburst 20      \
 	      avpkt 1000
 	      # tc class add dev eth0 parent 1:1 classid 1:4 cbq bandwidth 100Mbit  \
 	      rate 3Mbit weight 0.3Mbit prio 5 allot 1514 cell 8 maxburst 20      \
 	      avpkt 1000
-	    </Screen>
+	    </screen>
 
 	  </para>
 
@@ -4435,10 +4435,10 @@
 
 	  <para>
 
-	    <Screen>
+	    <screen>
 	      # tc qdisc add dev eth0 parent 1:3 handle 30: sfq
 	      # tc qdisc add dev eth0 parent 1:4 handle 40: sfq
-	    </Screen>
+	    </screen>
 
 	  </para>
 
@@ -4446,12 +4446,12 @@
 	    Both classes have a FIFO qdisc by default.  But we replaced these with an SFQ
 	    queue so each flow of data is treated equally.
 
-	    <Screen>
+	    <screen>
 	      # tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip \
 	      sport 80 0xffff flowid 1:3
 	      # tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 match ip \
 	      sport 25 0xffff flowid 1:4
-	    </Screen>
+	    </screen>
 
 	  </para>
 
@@ -4518,14 +4518,14 @@
 
 	  <para>
 
-	    <Screen>
+	    <screen>
 	      # tc qdisc add dev eth1 root handle 1: cbq bandwidth 10Mbit allot 1514 \
 	      cell 8 avpkt 1000 mpu 64
 
 	      # tc class add dev eth1 parent 1:0 classid 1:1 cbq bandwidth 10Mbit    \
 	      rate 10Mbit allot 1514 cell 8 weight 1Mbit prio 8 maxburst 20        \
 	      avpkt 1000
-	    </Screen>
+	    </screen>
 
 	    Standard CBQ preamble. I never get used to the sheer amount of numbers
 	    required!
@@ -4537,7 +4537,7 @@
 
 	  <para>
 
-	    <Screen>
+	    <screen>
 	      TC_PRIO..          Num  Corresponds to TOS
 	      -------------------------------------------------
 	      BESTEFFORT         0    Maximize Reliablity
@@ -4546,7 +4546,7 @@
 	      INTERACTIVE_BULK   4
 	      INTERACTIVE        6    Minimize Delay (0x10)
 	      CONTROL            7
-	    </Screen>
+	    </screen>
 
 	  </para>
 
@@ -4562,7 +4562,7 @@
 
 	  <para>
 
-	    <Screen>
+	    <screen>
 	      # tc class add dev eth1 parent 1:1 classid 1:2 cbq bandwidth 10Mbit     \
 	      rate 1Mbit allot 1514 cell 8 weight 100Kbit prio 3 maxburst 20        \
 	      avpkt 1000 split 1:0 defmap c0
@@ -4570,7 +4570,7 @@
 	      # tc class add dev eth1 parent 1:1 classid 1:3 cbq bandwidth 10Mbit     \
 	      rate 8Mbit allot 1514 cell 8 weight 800Kbit prio 7 maxburst 20        \
 	      avpkt 1000 split 1:0 defmap 3f
-	    </Screen>
+	    </screen>
 
 	  </para>
 
@@ -4584,7 +4584,7 @@
 	  <para>
 	    Node 1:0 now has a table like this:
 
-	    <Screen>
+	    <screen>
 	      priority	send to
 	      0		1:3
 	      1		1:3
@@ -4594,7 +4594,7 @@
 	      5		1:3
 	      6		1:2
 	      7		1:2
-	    </Screen>
+	    </screen>
 
 	  </para>
 
@@ -4607,9 +4607,9 @@
 
 	  <para>
 
-	    <Screen>
+	    <screen>
 	      # tc class change dev eth1 classid 1:2 cbq defmap 01/01
-	    </Screen>
+	    </screen>
 
 	  </para>
 
@@ -4619,7 +4619,7 @@
 
 	  <para>
 
-	    <Screen>
+	    <screen>
 	      priority	send to
 	      0		1:2
 	      1		1:3
@@ -4629,7 +4629,7 @@
 	      5		1:3
 	      6		1:2
 	      7		1:2
-	    </Screen>
+	    </screen>
 
 	  </para>
 
@@ -4689,7 +4689,7 @@
 
 	  <para>
 
-	    <Screen>
+	    <screen>
 	      # tc qdisc add dev eth0 root handle 1: htb default 30
 
 	      # tc class add dev eth0 parent 1: classid 1:1 htb rate 6mbit burst 15k
@@ -4697,29 +4697,29 @@
 	      # tc class add dev eth0 parent 1:1 classid 1:10 htb rate 5mbit burst 15k
 	      # tc class add dev eth0 parent 1:1 classid 1:20 htb rate 3mbit ceil 6mbit burst 15k
 	      # tc class add dev eth0 parent 1:1 classid 1:30 htb rate 1kbit ceil 6mbit burst 15k
-	    </Screen>
+	    </screen>
 
 	  </para>
 
 	  <para>
 	    The author then recommends SFQ for beneath these classes:
 
-	    <Screen>
+	    <screen>
 	      # tc qdisc add dev eth0 parent 1:10 handle 10: sfq perturb 10
 	      # tc qdisc add dev eth0 parent 1:20 handle 20: sfq perturb 10
 	      # tc qdisc add dev eth0 parent 1:30 handle 30: sfq perturb 10
-	    </Screen>
+	    </screen>
 
 	  </para>
 
 	  <para>
 	    Add the filters which direct traffic to the right classes:
 
-	    <Screen>
+	    <screen>
 	      # U32="tc filter add dev eth0 protocol ip parent 1:0 prio 1 u32"
 	      # $U32 match ip dport 80 0xffff flowid 1:10
 	      # $U32 match ip sport 25 0xffff flowid 1:20
-	    </Screen>
+	    </screen>
 
 	    And that's it - no unsightly unexplained numbers, no undocumented
 	    parameters.
@@ -4755,7 +4755,7 @@
       <para>To reiterate the tree, which is not a tree:
       </para>
 
-      <Screen width="80">
+      <screen width="80">
 	root 1:
 	|
 	_1:1_
@@ -4765,7 +4765,7 @@
 	10:   11:   12:
 	/   \       /   \
 	10:1  10:2   12:1  12:2
-      </Screen>
+      </screen>
 
       <para>
 	When enqueueing a packet, at each branch the filter chain is consulted for a
@@ -4806,13 +4806,13 @@
 
 	<para>
 
-	  <Screen>
+	  <screen>
 	    # tc filter add dev eth0 protocol ip parent 10: prio 1 u32 match \
 	    ip dport 22 0xffff flowid 10:1
 	    # tc filter add dev eth0 protocol ip parent 10: prio 1 u32 match \
 	    ip sport 80 0xffff flowid 10:1
 	    # tc filter add dev eth0 protocol ip parent 10: prio 2 flowid 10:2
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -4832,14 +4832,14 @@
 	<para>
 	  To select on an IP address, use this:
 
-	  <Screen>
+	  <screen>
 	    # tc filter add dev eth0 parent 10:0 protocol ip prio 1 u32 \
 	    match ip dst 4.3.2.1/32 flowid 10:1
 	    # tc filter add dev eth0 parent 10:0 protocol ip prio 1 u32 \
 	    match ip src 1.2.3.4/32 flowid 10:1
 	    # tc filter add dev eth0 protocol ip parent 10: prio 2      \
 	    flowid 10:2
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -4852,10 +4852,10 @@
 	  You can concatenate matches, to match on traffic from 1.2.3.4 and from port
 	  80, do this:
 
-	  <Screen>
+	  <screen>
 	    # tc filter add dev eth0 parent 10:0 protocol ip prio 1 u32 match ip src 4.3.2.1/32 \
 	    match ip sport 80 0xffff flowid 10:1
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -4867,9 +4867,9 @@
 	<para>
 	  Most shaping commands presented here start with this preamble:
 
-	  <Screen>
+	  <screen>
 	    # tc filter add dev eth0 parent 1:0 protocol ip prio 1 u32 ..
-	  </Screen>
+	  </screen>
 
 	  These are the so called 'u32' matches, which can match on ANY part of a
 	  packet.
@@ -4914,9 +4914,9 @@
 		<para>
 		  You can place a mark like this:
 
-		  <Screen>
+		  <screen>
 		    # iptables -A PREROUTING -t mangle -i eth0 -j MARK --set-mark 6
-		  </Screen>
+		  </screen>
 
 		  The number 6 is arbitrary.
 		</para>
@@ -4932,11 +4932,11 @@
 		<para>
 		  To select interactive, minimum delay traffic:
 
-		  <Screen>
+		  <screen>
 		    # tc filter add dev ppp0 parent 1:0 protocol ip prio 10 u32 \
 		    match ip tos 0x10 0xff \
 		    flowid 1:4
-		  </Screen>
+		  </screen>
 
 		  Use 0x08 0xff for bulk traffic.
 	      </para></listitem>
@@ -4998,7 +4998,7 @@
 	  a high guaranteed bandwidth. ;)
 	  Configuration is just like with any other interface:
 
-	  <Screen>
+	  <screen>
 	    tc qdisc add dev imq0 root handle 1: htb default 20
 
 	    tc class add dev imq0 parent 1: classid 1:1 htb rate 2mbit burst 15k
@@ -5011,17 +5011,17 @@
 
 	    tc filter add dev imq0 parent 10:0 protocol ip prio 1 u32 match \
 	    ip dst 10.0.0.230/32 flowid 1:10
-	  </Screen>
+	  </screen>
 
 	  In this example u32 is used for classification. Other classifiers should work as
 	  expected.
 	  Next traffic has to be selected and marked to be enqueued to imq0.
 
-	  <Screen>
+	  <screen>
 	    iptables -t mangle -A PREROUTING -i eth0 -j IMQ --todev 0
 
 	    ip link set imq0 up
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -5029,9 +5029,9 @@
 	  The IMQ iptables targets is valid in the PREROUTING and POSTROUTING chains of
 	  the mangle table. It's syntax is
 
-	  <Screen>
+	  <screen>
 	    IMQ [ --todev n ]	n : number of imq device
-	  </Screen>
+	  </screen>
 
 	  An ip6tables target is also provided.
 	</para>
@@ -5042,7 +5042,7 @@
 	  direction of the traffic (in/out).
 	  These are the predefined netfilter hooks used by iptables:
 
-	  <Screen>
+	  <screen>
 	    enum nf_ip_hook_priorities {
 	    NF_IP_PRI_FIRST = INT_MIN,
 	    NF_IP_PRI_CONNTRACK = -200,
@@ -5052,7 +5052,7 @@
 	    NF_IP_PRI_NAT_SRC = 100,
 	    NF_IP_PRI_LAST = INT_MAX,
 	    };
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -5096,13 +5096,13 @@
 
     <para>
 
-      <Screen>
+      <screen>
 	+-------+   eth1   +-------+
 	|       |==========|       |
 	'network 1' ----|   A   |          |   B   |---- 'network 2'
 	|       |==========|       |
 	+-------+   eth2   +-------+
-      </Screen>
+      </screen>
 
     </para>
 
@@ -5121,11 +5121,11 @@
 
     <para>
 
-      <Screen>
+      <screen>
 	# tc qdisc add dev eth1 root teql0
 	# tc qdisc add dev eth2 root teql0
 	# ip link set dev teql0 up
-      </Screen>
+      </screen>
 
     </para>
 
@@ -5149,22 +5149,22 @@
     <para>
       On router A:
 
-      <Screen>
+      <screen>
 	# ip addr add dev eth1 10.0.0.0/31
 	# ip addr add dev eth2 10.0.0.2/31
 	# ip addr add dev teql0 10.0.0.4/31
-      </Screen>
+      </screen>
 
     </para>
 
     <para>
       On router B:
 
-      <Screen>
+      <screen>
 	# ip addr add dev eth1 10.0.0.1/31
 	# ip addr add dev eth2 10.0.0.3/31
 	# ip addr add dev teql0 10.0.0.5/31
-      </Screen>
+      </screen>
 
     </para>
 
@@ -5192,10 +5192,10 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  # echo 0 &#62; /proc/sys/net/ipv4/conf/eth1/rp_filter
 	  # echo 0 &#62; /proc/sys/net/ipv4/conf/eth2/rp_filter
-	</Screen>
+	</screen>
 
       </para>
 
@@ -5258,10 +5258,10 @@
 
     <para>
 
-      <Screen>
+      <screen>
 	# iptables -A PREROUTING -i eth0 -t mangle -p tcp --dport 25 \
 	-j MARK --set-mark 1
-      </Screen>
+      </screen>
 
     </para>
 
@@ -5278,7 +5278,7 @@
 
     <para>
 
-      <Screen>
+      <screen>
 	# echo 201 mail.out &#62;&#62; /etc/iproute2/rt_tables
 	# ip rule add fwmark 1 table mail.out
 	# ip rule ls
@@ -5286,16 +5286,16 @@
 	32764:	from all fwmark        1 lookup mail.out
 	32766:	from all lookup main
 	32767:	from all lookup default
-      </Screen>
+      </screen>
 
     </para>
 
     <para>
       Now we generate a route to the slow but cheap link in the mail.out table:
 
-      <Screen>
+      <screen>
 	# /sbin/ip route add default via 195.96.98.253 dev ppp0 table mail.out
-      </Screen>
+      </screen>
 
     </para>
 
@@ -5335,11 +5335,11 @@
 
     <para>
 
-      <Screen>
+      <screen>
 	IP: advanced router (CONFIG_IP_ADVANCED_ROUTER) [Y/n/?]
 	IP: policy routing (CONFIG_IP_MULTIPLE_TABLES) [Y/n/?]
 	IP: use netfilter MARK value as routing key (CONFIG_IP_ROUTE_FWMARK) [Y/n/?]
-      </Screen>
+      </screen>
 
     </para>
 
@@ -5488,11 +5488,11 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  tc filter add dev IF [ protocol PROTO ]
 	  [ (preference|priority) PRIO ]
 	  [ parent CBQ ]
-	</Screen>
+	</screen>
 
       </para>
 
@@ -5525,10 +5525,10 @@
 
 	<para>
 
-	  <Screen>
+	  <screen>
 	    # tc filter add dev eth0 protocol ip parent 1:0 pref 10 u32 \
 	    match u32 00100000 00ff0000 at 0 flowid 1:10
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -5547,10 +5547,10 @@
 
 	<para>
 
-	  <Screen>
+	  <screen>
 	    # tc filter add dev eth0 protocol ip parent 1:0 pref 10 u32 \
 	    match u32 00000016 0000ffff at nexthdr+0 flowid 1:10
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -5590,9 +5590,9 @@
 
 	<para>
 
-	  <Screen>
+	  <screen>
 	    match [ u32 | u16 | u8 ] PATTERN MASK [ at OFFSET | nexthdr+OFFSET]
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -5612,11 +5612,11 @@
 	  Packet will match to this rule, if its time to live (TTL) is 64.
 	  TTL is the field starting just after 8-th byte of the IP header.
 
-	  <Screen>
+	  <screen>
 	    # tc filter add dev ppp14 parent 1:0 prio 10 u32 \
 	    match u8 64 0xff at 8 \
 	    flowid 1:4
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -5624,19 +5624,19 @@
 	<para>
 	  The following matches all TCP packets which have the ACK bit set:
 
-	  <Screen>
+	  <screen>
 	    # tc filter add dev ppp14 parent 1:0 prio 10 u32 \
 	    match ip protocol 6 0xff \
 	    match u8 0x10 0xff at nexthdr+13 \
 	    flowid 1:3
-	  </Screen>
+	  </screen>
 
 	</para>
 
 	<para>
 	  Use this to match ACKs on packets smaller than 64 bytes:
 
-	  <Screen>
+	  <screen>
 	    ## match acks the hard way,
 	    ## IP protocol 6,
 	    ## IP header length 0x5(32 bit words),
@@ -5648,7 +5648,7 @@
 	    match u16 0x0000 0xffc0 at 2 \
 	    match u8 0x10 0xff at 33 \
 	    flowid 1:3
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -5674,13 +5674,13 @@
 
 	<para>
 
-	  <Screen>
+	  <screen>
 	    tc filter add dev ppp14 parent 1:0 protocol ip prio 10 u32 \
 	    match ip protocol 6 0xff \
 	    match u8 0x10 0xff at nexthdr+13 \
 	    match u16 0x0000 0xffc0 at 2 \
 	    flowid 1:3
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -5715,11 +5715,11 @@
 
 	<para>
 
-	  <Screen>
+	  <screen>
 	    # tc filter add dev ppp0 parent 1:0 prio 10 u32 \
 	    match ip tos 0x10 0xff \
 	    flowid 1:4
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -5743,12 +5743,12 @@
 
 	<para>
 
-	  <Screen>
+	  <screen>
 	    # tc filter add dev ppp0 parent 1:0 prio 10 u32 \
 	    match tcp dport 53 0xffff \
 	    match ip protocol 0x6 0xff \
 	    flowid 1:2
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -5769,9 +5769,9 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  # tc filter add dev eth1 parent 1:0 protocol ip prio 100 route
-	</Screen>
+	</screen>
 
       </para>
 
@@ -5790,9 +5790,9 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  # ip route add Host/Network via Gateway dev Device realm RealmNumber
-	</Screen>
+	</screen>
 
       </para>
 
@@ -5803,9 +5803,9 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  # ip route add 192.168.10.0/24 via 192.168.10.1 dev eth1 realm 10
-	</Screen>
+	</screen>
 
       </para>
 
@@ -5816,10 +5816,10 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  # tc filter add dev eth1 parent 1:0 protocol ip prio 100 \
 	  route to 10 classid 1:10
-	</Screen>
+	</screen>
 
       </para>
 
@@ -5834,11 +5834,11 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  # ip route add 192.168.2.0/24 dev eth2 realm 2
 	  # tc filter add dev eth1 parent 1:0 protocol ip prio 100 \
 	  route from 2 classid 1:2
-	</Screen>
+	</screen>
 
       </para>
 
@@ -6014,39 +6014,39 @@
 	  over the limit:
 	</para>
 
-	<Screen>
+	<screen>
 	  tc filter add dev $DEV parent ffff: \
 	  protocol ip prio 20 \
 	  u32 match ip protocol 1 0xff \
 	  police rate 2kbit buffer 10k drop \
 	  flowid :1
-	</Screen>
+	</screen>
 
 	<para>
 	  Limit packets to a certain size (i.e. all packets
 	  with a length greater than 84 bytes will get dropped):
 	</para>
 
-	<Screen>
+	<screen>
 	  tc filter add dev $DEV parent ffff: \
 	  protocol ip prio 20 \
 	  u32 match tos 0 0 \
 	  police mtu 84 drop \
 	  flowid :1
-	</Screen>
+	</screen>
 
 
 	<para>
 	  This method can be used to drop all packets:
 	</para>
 
-	<Screen>
+	<screen>
 	  tc filter add dev $DEV parent ffff: \
 	  protocol ip prio 20 \
 	  u32 match ip protocol 1 0xff \
 	  police mtu 1 drop \
 	  flowid :1
-	</Screen>
+	</screen>
 
 	<para>
 	  It actually drops icmp packets greater-than 1 byte. While packets with
@@ -6087,7 +6087,7 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  # tc filter add dev eth1 parent 1:0 protocol ip prio 100 match ip src \
 	  1.2.0.0 classid 1:1
 	  # tc filter add dev eth1 parent 1:0 protocol ip prio 100 match ip src \
@@ -6097,7 +6097,7 @@
 	  1.2.3.254 classid 1:3
 	  # tc filter add dev eth1 parent 1:0 protocol ip prio 100 match ip src \
 	  1.2.3.255 classid 1:2
-	</Screen>
+	</screen>
 
       </para>
 
@@ -6105,7 +6105,7 @@
 	To speed this up, we can use the last part of the IP address as a 'hash
 	key'. We then get 256 tables, the first of which looks like this:
 
-	<Screen>
+	<screen>
 	  # tc filter add dev eth1 parent 1:0 protocol ip prio 100 match ip src \
 	  1.2.0.0 classid 1:1
 	  # tc filter add dev eth1 parent 1:0 protocol ip prio 100 match ip src \
@@ -6114,18 +6114,18 @@
 	  1.2.2.0 classid 1:3
 	  # tc filter add dev eth1 parent 1:0 protocol ip prio 100 match ip src \
 	  1.2.3.0 classid 1:2
-	</Screen>
+	</screen>
 
       </para>
 
       <para>
 	The next one starts like this:
 
-	<Screen>
+	<screen>
 	  # tc filter add dev eth1 parent 1:0 protocol ip prio 100 match ip src \
 	  1.2.0.1 classid 1:1
 	  ...
-	</Screen>
+	</screen>
 
       </para>
 
@@ -6138,10 +6138,10 @@
 	this many rules. First we make a filter root, then we create a table with
 	256 entries:
 
-	<Screen>
+	<screen>
 	  # tc filter add dev eth1 parent 1:0 prio 5 protocol ip u32
 	  # tc filter add dev eth1 parent 1:0 prio 5 handle 2: protocol ip u32 divisor 256
-	</Screen>
+	</screen>
 
       </para>
 
@@ -6151,7 +6151,7 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  # tc filter add dev eth1 protocol ip parent 1:0 prio 5 u32 ht 2:7b: \
 	  match ip src 1.2.0.123 flowid 1:1
 	  # tc filter add dev eth1 protocol ip parent 1:0 prio 5 u32 ht 2:7b: \
@@ -6160,7 +6160,7 @@
 	  match ip src 1.2.3.123 flowid 1:3
 	  # tc filter add dev eth1 protocol ip parent 1:0 prio 5 u32 ht 2:7b: \
 	  match ip src 1.2.4.123 flowid 1:2
-	</Screen>
+	</screen>
 
 	This is entry 123, which contains matches for 1.2.0.123, 1.2.1.123,
 	1.2.2.123, 1.2.3.123, and sends them to 1:1, 1:2, 1:3 and 1:2 respectively.
@@ -6171,12 +6171,12 @@
 	Next create a 'hashing filter' that directs traffic to the right entry in
 	the hashing table:
 
-	<Screen>
+	<screen>
 	  # tc filter add dev eth1 protocol ip parent 1:0 prio 5 u32 ht 800:: \
 	  match ip src 1.2.0.0/16 \
 	  hashkey mask 0x000000ff at 12 \
 	  link 2:
-	</Screen>
+	</screen>
 
 	Ok, some numbers need explaining. The default hash table is called 800:: and
 	all filtering starts there. Then we select the source address, which lives
@@ -6227,9 +6227,9 @@
 	  ip6tables is able to mark a packet and assign a number to it:
 	</para>
 
-	<Screen>
+	<screen>
 	  # ip6tables -A PREROUTING -i eth0 -t mangle -p tcp -j MARK --mark 1
-	</Screen>
+	</screen>
 
 	<para>
 	  But still, this will not help because the packet will not pass through the
@@ -6252,10 +6252,10 @@
 	  The following filter matches all IPv6 encapsulated in IPv4 packets:
 	</para>
 
-	<Screen>
+	<screen>
 	  # tc filter add dev $DEV parent 10:0 protocol ip prio 10 u32 \
 	  match ip protocol 41 0xff flowid 42:42
-	</Screen>
+	</screen>
 
 	<para>
 	  Let's carry on with that. Assume your IPv6 packets get sent out
@@ -6264,13 +6264,13 @@
 	  0x3a (58) is the Next-Header type for ICMPv6.
 	</para>
 
-	<Screen>
+	<screen>
 	  # tc filter add dev $DEV parent 10:0 protocol ip prio 10 u32 \
 	  match ip protocol 41 0xff \
 	  match u8 0x05 0x0f at 0 \
 	  match u8 0x3a 0xff at 26 \
 	  flowid 42:42
-	</Screen>
+	</screen>
 
 	<para>
 	  Matching the destination IPv6 address is a bit more work. The following
@@ -6278,7 +6278,7 @@
 	  3ffe:202c:ffff:32:230:4fff:fe08:358d:
 	</para>
 
-	<Screen>
+	<screen>
 	  # tc filter add dev $DEV parent 10:0 protocol ip prio 10 u32 \
 	  match ip protocol 41 0xff \
 	  match u8 0x05 0x0f at 0 \
@@ -6299,20 +6299,20 @@
 	  match u8 0x35 0xff at 58 \
 	  match u8 0x8d 0xff at 59 \
 	  flowid 10:13
-	</Screen>
+	</screen>
 
 	<para>
 	  The same technique can be used to match subnets. For example 2001::
 	</para>
 
-	<Screen>
+	<screen>
 	  # tc filter add dev $DEV parent 10:0 protocol ip prio 10 u32 \
 	  match ip protocol 41 0xff \
 	  match u8 0x05 0x0f at 0 \
 	  match u8 0x20 0xff at 28 \
 	  match u8 0x01 0xff at 29 \
 	  flowid 10:13
-	</Screen>
+	</screen>
 
       </section>
 
@@ -6373,11 +6373,11 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  # for i in /proc/sys/net/ipv4/conf/*/rp_filter ; do
 	  &gt;  echo 2 &#62; $i
 	  &gt; done
-	</Screen>
+	</screen>
 
       </para>
 
@@ -6408,14 +6408,14 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  # echo 1 &#62;/proc/sys/net/ipv4/conf/&#60;interfacename&#62;/log_martians
-	</Screen>
+	</screen>
 
       </para>
 
       <para>
-	FIXME: is setting the conf/&lcub;default,all&rcub;/* files enough? - martijn
+	FIXME: is setting the conf/{default,all}/* files enough? - martijn
       </para>
 
     </section>
@@ -7450,7 +7450,7 @@
 
 	<para>
 	  In fact, you can apply your own policies into your local domains, but some
-	  <Emphasis>Service Level Agreements</Emphasis> should be considered when connecting to
+	  <emphasis>Service Level Agreements</emphasis> should be considered when connecting to
 	  other DS domains.
 	</para>
 
@@ -7486,9 +7486,9 @@
 	<para>
 	  But, first of all, take a look at DSMARK qdisc command and its parameters:
 
-	  <Screen>
+	  <screen>
 	    ... dsmark indices INDICES [ default_index DEFAULT_INDEX ] [ set_tc_index ]
-	  </Screen>
+	  </screen>
 
 	  What do these parameters mean?
 
@@ -7496,19 +7496,19 @@
 	    <listitem>
 
 	      <para>
-		<Emphasis remap="bf">indices</Emphasis>: size of table of (mask,value) pairs. Maximum value is 2&circ;n, where n&gt;=0.
+		<emphasis remap="bf">indices</emphasis>: size of table of (mask,value) pairs. Maximum value is 2^n, where n&gt;=0.
 	      </para>
 	    </listitem>
 	    <listitem>
 
 	      <para>
-		<Emphasis remap="bf">Default_index</Emphasis>: the default table entry index if classifier finds no match.
+		<emphasis remap="bf">Default_index</emphasis>: the default table entry index if classifier finds no match.
 	      </para>
 	    </listitem>
 	    <listitem>
 
 	      <para>
-		<Emphasis remap="bf">Set_tc_index</Emphasis>: instructs dsmark discipline to retrieve the DS field and store it onto skb-&gt;tc_index.
+		<emphasis remap="bf">Set_tc_index</emphasis>: instructs dsmark discipline to retrieve the DS field and store it onto skb-&gt;tc_index.
 	      </para>
 	    </listitem>
 
@@ -7549,9 +7549,9 @@
 		the internal qdisc is stored into skb-&gt;tc_index. We will use this value in the future to index a mask-
 		value table. The final result to assign to the packet will be that resulting from next operation:
 
-		<Screen>
+		<screen>
 		  New_Ds_field = ( Old_DS_field &#38; mask ) | value
-		</Screen>
+		</screen>
 
 
 	      </para>
@@ -7567,7 +7567,7 @@
 	  </itemizedlist>
 
 
-	  <Screen>
+	  <screen>
 	    skb-&gt;ihp-&gt;tos
 	    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - &gt;
 	    |                                                       |     ^
@@ -7589,16 +7589,16 @@
 	    v            |         v                v       |                    pairs table
 	    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -&gt;
 	    skb-&gt;tc_index
-	  </Screen>
+	  </screen>
 
 	</para>
 
 	<para>
 	  How to do marking? Just change the mask and value of the class you want to remark. See next line of code:
 
-	  <Screen>
+	  <screen>
 	    tc class change dev eth0 classid 1:1 dsmark mask 0x3 value 0xb8
-	  </Screen>
+	  </screen>
 
 	  This changes the (mask,value) pair in hash table, to remark packets belonging to class 1:1.You have to "change" this values
 	  because of default values that (mask,value) gets initially (see table below).
@@ -7617,32 +7617,32 @@
 	<para>
 	  This is the basic command to declare a TC_INDEX filter:
 
-	  <Screen>
+	  <screen>
 	    ... tcindex [ hash SIZE ] [ mask MASK ] [ shift SHIFT ]
 	    [ pass_on | fall_through ]
 	    [ classid CLASSID ] [ police POLICE_SPEC ]
-	  </Screen>
+	  </screen>
 	</para>
 	<para>
 	  Next, we show the example used to explain TC_INDEX operation mode. Pay attention to bolded words:
 
-	  <Screen>
-	    tc qdisc add dev eth0 handle 1:0 root dsmark indices 64 <Emphasis remap="bf">set_tc_index</Emphasis>
+	  <screen>
+	    tc qdisc add dev eth0 handle 1:0 root dsmark indices 64 <emphasis remap="bf">set_tc_index</emphasis>
 
-	    tc filter add dev eth0 parent 1:0 protocol ip prio 1 tcindex <Emphasis remap="bf">mask 0xfc  shift 2</Emphasis>
+	    tc filter add dev eth0 parent 1:0 protocol ip prio 1 tcindex <emphasis remap="bf">mask 0xfc  shift 2</emphasis>
 
 	    tc qdisc add dev eth0 parent 1:0 handle 2:0 cbq bandwidth 10Mbit cell 8 avpkt 1000 mpu 64
 
-	    &num; EF traffic class
+	    EF traffic class
 
 	    tc class add dev eth0 parent 2:0 classid 2:1 cbq bandwidth 10Mbit rate 1500Kbit avpkt 1000 prio 1 bounded isolated allot 1514 weight 1 maxburst 10
 
-	    &num; Packet fifo qdisc for EF traffic
+	    Packet fifo qdisc for EF traffic
 
 	    tc qdisc add dev eth0 parent 2:1 pfifo limit 5
 
-	    tc filter add dev eth0 parent 2:0 protocol ip prio 1 <Emphasis remap="bf">handle 0x2e</Emphasis> tcindex <Emphasis remap="bf">classid 2:1 pass_on</Emphasis>
-	  </Screen>
+	    tc filter add dev eth0 parent 2:0 protocol ip prio 1 <emphasis remap="bf">handle 0x2e</emphasis> tcindex <emphasis remap="bf">classid 2:1 pass_on</emphasis>
+	  </screen>
 
 
 	  (This code is not complete. It's just an extract from EFCBQ example included in iproute2 distribution).
@@ -7656,7 +7656,7 @@
 
 	<para>
 
-	  <Screen>
+	  <screen>
 	    TC INDEX
 	    FILTER
 	    +---+      +-------+    +---+-+    +------+                +-+    +-------+
@@ -7674,7 +7674,7 @@
 	    |                          DSMARK 1:0                                     |
 	    +-------------------------------------------------------------------------+
 
-	  </Screen>
+	  </screen>
 	</para>
 
 	<para>
@@ -7682,19 +7682,19 @@
 	  by 1:0 id in the example, retrieves DS field and store it in skb-&gt;tc_index variable.
 	  Next step in the example will correspond to the filter associated to this qdisc (second line in the example).
 	  This will perform next operations:
-	  <Screen>
+	  <screen>
 	    Value1 = skb-&#62;tc_index &#38; MASK
 	    Key = Value1 &#62;&#62; SHIFT
-	  </Screen>
+	  </screen>
 	</para>
 
 	<para>
 	  In the example, MASK=0xFC and SHIFT=2.
 
-	  <Screen>
+	  <screen>
 	    Value1 = 10111000 &#38; 11111100 = 10111000
 	    Key = 10111000 &#62;&#62; 2 = 00101110 -&#62; 0x2E in hexadecimal
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -7722,7 +7722,7 @@
 	<para>
 	  Finally, let's see which possible values can be set to all this TCINDEX parameters:
 
-	  <Screen>
+	  <screen>
 	    TC Name                 Value           Default
 	    -----------------------------------------------------------------
 	    Hash                    1...0x10000     Implementation dependent
@@ -7731,7 +7731,7 @@
 	    Fall through / Pass_on  Flag            Fall_through
 	    Classid                 Major:minor     None
 	    Police                  .....           None
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -7778,9 +7778,9 @@
 	  other qdiscs in that it does not occupy the root of a device. Attach it like
 	  this:
 
-	  <Screen>
+	  <screen>
 	    # tc qdisc add dev eth0 ingress
-	  </Screen>
+	  </screen>
 
 	  This allows you to have other, sending, qdiscs on your device besides the
 	  ingress qdisc.
@@ -7999,10 +7999,10 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  # ip address add 188.177.166.1 dev eth0
 	  # ip address add 188.177.166.2 dev eth0
-	</Screen>
+	</screen>
 
       </para>
 
@@ -8014,10 +8014,10 @@
       <para>
 	We first attach a CBQ qdisc to eth0:
 
-	<Screen>
+	<screen>
 	  # tc qdisc add dev eth0 root handle 1: cbq bandwidth 10Mbit cell 8 avpkt 1000 \
 	  mpu 64
-	</Screen>
+	</screen>
 
       </para>
 
@@ -8027,19 +8027,19 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  # tc class add dev eth0 parent 1:0 classid 1:1 cbq bandwidth 10Mbit rate \
 	  2MBit avpkt 1000 prio 5 bounded isolated allot 1514 weight 1 maxburst 21
 	  # tc class add dev eth0 parent 1:0 classid 1:2 cbq bandwidth 10Mbit rate \
 	  5Mbit avpkt 1000 prio 5 bounded isolated allot 1514 weight 1 maxburst 21
-	</Screen>
+	</screen>
 
       </para>
 
       <para>
 	Then we add filters for our two classes:
 
-	<Screen>
+	<screen>
 	  ##FIXME: Why this line, what does it do?, what is a divisor?:
 	  ##FIXME: A divisor has something to do with a hash table, and the number of
 	  ##       buckets - ahu
@@ -8048,7 +8048,7 @@
 	  flowid 1:1
 	  # tc filter add dev eth0 parent 1:0 prio 5 u32 match ip src 188.177.166.2
 	  flowid 1:2
-	</Screen>
+	</screen>
 
       </para>
 
@@ -8085,7 +8085,7 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  #! /bin/sh -x
 	  #
 	  # sample script on using the ingress capabilities
@@ -8135,7 +8135,7 @@
 
 	  #deleting the ingress qdisc
 	  #$TC qdisc del $INDEV ingress
-	</Screen>
+	</screen>
 
       </para>
 
@@ -8163,10 +8163,10 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  [The Internet] ---&#60;E3, T3, whatever&#62;--- [Linux router] --- [Office+ISP]
 	  eth1          eth0
-	</Screen>
+	</screen>
 
       </para>
 
@@ -8175,11 +8175,11 @@
       </para>
 
       <para>
-	<Screen>
+	<screen>
 	  # tc qdisc add dev eth0 root handle 10: cbq bandwidth 10Mbit avpkt 1000
 	  # tc class add dev eth0 parent 10:0 classid 10:1 cbq bandwidth 10Mbit rate \
 	  10Mbit allot 1514 prio 5 maxburst 20 avpkt 1000
-	</Screen>
+	</screen>
       </para>
 
       <para>
@@ -8194,21 +8194,21 @@
 	If measurement is impractical, you might want to choose 5% of your available
 	bandwidth. Let's set up our class:
 
-	<Screen>
+	<screen>
 	  # tc class add dev eth0 parent 10:1 classid 10:100 cbq bandwidth 10Mbit rate \
 	  100Kbit allot 1514 weight 800Kbit prio 5 maxburst 20 avpkt 250 \
 	  bounded
-	</Screen>
+	</screen>
       </para>
 
       <para>
 	This limits at 100Kbit. Now we need a filter to assign ICMP traffic to this
 	class:
 
-	<Screen>
+	<screen>
 	  # tc filter add dev eth0 parent 10:0 protocol ip prio 100 u32 match ip
 	  protocol 1 0xFF flowid 10:100
-	</Screen>
+	</screen>
       </para>
     </section>
 
@@ -8264,14 +8264,14 @@
       </para>
 
       <para>
-	<Screen>
+	<screen>
 	  # iptables -A PREROUTING -t mangle -p tcp --sport telnet \
 	  -j TOS --set-tos Minimize-Delay
 	  # iptables -A PREROUTING -t mangle -p tcp --sport ftp \
 	  -j TOS --set-tos Minimize-Delay
 	  # iptables -A PREROUTING -t mangle -p tcp --sport ftp-data \
 	  -j TOS --set-tos Maximize-Throughput
-	</Screen>
+	</screen>
       </para>
 
       <para>
@@ -8286,14 +8286,14 @@
       </para>
 
       <para>
-	<Screen>
+	<screen>
 	  # iptables -A OUTPUT -t mangle -p tcp --dport telnet \
 	  -j TOS --set-tos Minimize-Delay
 	  # iptables -A OUTPUT -t mangle -p tcp --dport ftp \
 	  -j TOS --set-tos Minimize-Delay
 	  # iptables -A OUTPUT -t mangle -p tcp --dport ftp-data \
 	  -j TOS --set-tos Maximize-Throughput
-	</Screen>
+	</screen>
       </para>
     </section>
 
@@ -8391,7 +8391,7 @@
 	  </varlistentry>
 	</variablelist>
 
-	<Screen>
+	<screen>
 	  |----------------|
 	  | Implementation |
 	  |----------------|
@@ -8416,7 +8416,7 @@
 	  ------------hub/switch----------
 	  |        |             |       |
 	  naret   silom        kaosarn  RAS etc.
-	</Screen>
+	</screen>
 
 	First, make all traffic pass through naret by making sure it is the default gateway except for silom.
 	Silom's default gateway has to be donmuang (10.0.0.3) or this would create web traffic loop.
@@ -8430,11 +8430,11 @@
       </para>
 
       <para>
-	<Screen>
+	<screen>
 	  Silom
 	  -----
 	  -setup squid and ipchains
-	</Screen>
+	</screen>
       </para>
 
       <para>
@@ -8446,18 +8446,18 @@
       </para>
 
       <para>
-	<Screen>
+	<screen>
 	  silom# ipchains -N allow1
 	  silom# ipchains -A allow1 -p TCP -s 10.0.0.0/19 -d 0/0 80 -j REDIRECT 3128
 	  silom# ipchains -I input -j allow1
-	</Screen>
+	</screen>
       </para>
 
       <para>
 	Or, in netfilter lingo:
-	<Screen>
+	<screen>
 	  silom# iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3128
-	</Screen>
+	</screen>
       </para>
 
       <para>
@@ -8475,12 +8475,12 @@
       </para>
 
       <para>
-	<Screen>
+	<screen>
 	  Naret
 	  -----
 	  -setup iptables and iproute2
 	  -disable icmp REDIRECT messages (if needed)
-	</Screen>
+	</screen>
       </para>
 
       <para>
@@ -8488,32 +8488,32 @@
 	  <listitem>
 	    <para>
 	      "Mark" packets of destination port 80 with value 2
-	      <Screen>
+	      <screen>
 		naret# iptables -A PREROUTING -i eth0 -t mangle -p tcp --dport 80 \
 		-j MARK --set-mark 2
-	      </Screen>
+	      </screen>
 	    </para>
 	  </listitem>
 
 	  <listitem>
 	    <para>
 	      Setup iproute2 so it will route packets with "mark" 2 to silom
-	      <Screen>
+	      <screen>
 		naret# echo 202 www.out &#62;&#62; /etc/iproute2/rt_tables
 		naret# ip rule add fwmark 2 table www.out
 		naret# ip route add default via 10.0.0.2 dev eth0 table www.out
 		naret# ip route flush cache
-	      </Screen>
+	      </screen>
 	    </para>
 
 	    <para>
 	      If donmuang and naret is on the same subnet then naret should not send out icmp REDIRECT messages.
 	      In this case it is, so icmp REDIRECTs has to be disabled by:
-	      <Screen>
+	      <screen>
 		naret# echo 0 &#62; /proc/sys/net/ipv4/conf/all/send_redirects
 		naret# echo 0 &#62; /proc/sys/net/ipv4/conf/default/send_redirects
 		naret# echo 0 &#62; /proc/sys/net/ipv4/conf/eth0/send_redirects
-	      </Screen>
+	      </screen>
 	    </para>
 	  </listitem>
 	</OrderedList>
@@ -8524,7 +8524,7 @@
       </para>
 
       <para>
-	<Screen>
+	<screen>
 	  On naret:
 
 	  naret# iptables -t mangle -L
@@ -8556,13 +8556,13 @@
 	  |------|
 	  |-DONE-|
 	  |------|
-	</Screen>
+	</screen>
       </para>
 
       <section>
 	<title>Traffic flow diagram after implementation</title>
 
-	<Screen width="80">
+	<screen width="80">
 
 	  |-----------------------------------------|
 	  |Traffic flow diagram after implementation|
@@ -8581,7 +8581,7 @@
 	  /\                                      ||         ||
 	  ||                                      \/         \/
 	  \\===================================kaosarn, RAS, etc.
-	</Screen>
+	</screen>
 
 	<para>
 	  Note that the network is asymmetric as there is one extra hop on
@@ -8597,20 +8597,20 @@
 	  <varlistentry>
 	    <term>For web/http traffic</term>
 	    <listitem>
-	      <para><Screen>
+	      <para><screen>
 		  kaosarn http request-&#62;naret-&#62;silom-&#62;donmuang-&#62;internet
 		  http replies from Internet-&#62;donmuang-&#62;silom-&#62;kaosarn
-	      </Screen></para>
+	      </screen></para>
 	    </listitem>
 	  </varlistentry>
 
 	  <varlistentry>
 	    <term>For non-web/http requests(eg. telnet)</term>
 	    <listitem>
-	      <para><Screen>
+	      <para><screen>
 		  kaosarn outgoing data-&#62;naret-&#62;donmuang-&#62;internet
 		  incoming data from Internet-&#62;donmuang-&#62;kaosarn
-	      </Screen></para>
+	      </screen></para>
 	    </listitem>
 	  </varlistentry>
 	</variablelist>
@@ -8716,9 +8716,9 @@
 	  <para>Solution:
 	  </para>
 
-	  <Screen width="80">
+	  <screen width="80">
 	    ip route add default via 10.0.0.1 mtu 296
-	  </Screen>
+	  </screen>
 
 	  <para>
 	    (10.0.0.1 being the default gateway, the inside address of the
@@ -8732,9 +8732,9 @@
 	  should help:
 	</para>
 
-	<Screen width="80">
+	<screen width="80">
 	  ip route add 195.96.96.0/24 via 10.0.0.1 mtu 1000
-	</Screen>
+	</screen>
 
       </section>
 
@@ -8777,9 +8777,9 @@
 	In order for this to work you need at least iptables-1.2.1a and Linux 2.4.3
 	or higher. The basic command line is:
 
-	<Screen>
+	<screen>
 	  # iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS  --clamp-mss-to-pmtu
-	</Screen>
+	</screen>
 
       </para>
 
@@ -8790,9 +8790,9 @@
 
       <para>
 
-	<Screen>
+	<screen>
 	  # iptables -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 128
-	</Screen>
+	</screen>
 
       </para>
 
@@ -8934,7 +8934,7 @@
 
 	<para>
 
-	  <Screen>
+	  <screen>
 	    Baseline latency:
 	    round-trip min/avg/max = 14.4/17.1/21.7 ms
 
@@ -8952,7 +8952,7 @@
 
 	    When uploading, downloads proceed at ~80% of the available speed. Uploads
 	    at around 90%. Latency then jumps to 850 ms, still figuring out why.
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -8994,7 +8994,7 @@
 
 	<para>
 
-	  <Screen>
+	  <screen>
 	    #!/bin/bash
 
 	    # The Ultimate Setup For Your Internet Connection At Home
@@ -9077,7 +9077,7 @@
 
 	    tc filter add dev $DEV parent ffff: protocol ip prio 50 u32 match ip src \
 	    0.0.0.0/0 police rate ${DOWNLINK}kbit burst 10k drop flowid :1
-	  </Screen>
+	  </screen>
 
 	  If you want this script to be run by ppp on connect, copy it to
 	  /etc/ppp/ip-up.d.
@@ -9096,7 +9096,7 @@
 	  The following script achieves all goals using the wonderful HTB queue, see
 	  the relevant chapter. Well worth patching your kernel for!
 
-	  <Screen>
+	  <screen>
 	    #!/bin/bash
 
 	    # The Ultimate Setup For Your Internet Connection At Home
@@ -9174,7 +9174,7 @@
 
 	    tc filter add dev $DEV parent ffff: protocol ip prio 50 u32 match ip src \
 	    0.0.0.0/0 police rate ${DOWNLINK}kbit burst 10k drop flowid :1
-	  </Screen>
+	  </screen>
 
 	</para>
 
@@ -9276,7 +9276,7 @@
 	</para>
 	<para>
 	  Adjust CEIL to 75% of your upstream bandwith limit by now, and where I use eth0, you should use the interface which has a public Internet address. To begin our example execute the following in a root shell:
-	  <Screen>
+	  <screen>
 	    CEIL=240
 	    tc qdisc add dev eth0 root handle 1: htb default 15
 	    tc class add dev eth0 parent 1: classid 1:1 htb rate ${CEIL}kbit ceil ${CEIL}kbit
@@ -9290,10 +9290,10 @@
 	    tc qdisc add dev eth0 parent 1:13 handle 130: sfq perturb 10
 	    tc qdisc add dev eth0 parent 1:14 handle 140: sfq perturb 10
 	    tc qdisc add dev eth0 parent 1:15 handle 150: sfq perturb 10
-	  </Screen>
+	  </screen>
 	  We have just created a htb tree with one level depth. Something like this:
 
-	  <Screen>
+	  <screen>
 	    +---------+
 	    | root 1: |
 	    +---------+
@@ -9305,7 +9305,7 @@
 	    +----+ +----+ +----+ +----+ +----+ +----+
 	    |1:10| |1:11| |1:12| |1:13| |1:14| |1:15|
 	    +----+ +----+ +----+ +----+ +----+ +----+
-	  </Screen>
+	  </screen>
 	  <variablelist>
 	    <varlistentry>
 	      <term>classid 1:10 htb rate 80kbit ceil 80kbit prio 0</term>
@@ -9373,20 +9373,20 @@
 
 	<para>
 	  Now we set the filters so we can classify the packets with iptables. I really prefer to do it with iptables, because they are very flexible and you have packet count for each rule. Also with the RETURN target packets don't need to traverse all rules. We execute the following commands:
-	  <Screen>
+	  <screen>
 	    tc filter add dev eth0 parent 1:0 protocol ip prio 1 handle 1 fw classid 1:10
 	    tc filter add dev eth0 parent 1:0 protocol ip prio 2 handle 2 fw classid 1:11
 	    tc filter add dev eth0 parent 1:0 protocol ip prio 3 handle 3 fw classid 1:12
 	    tc filter add dev eth0 parent 1:0 protocol ip prio 4 handle 4 fw classid 1:13
 	    tc filter add dev eth0 parent 1:0 protocol ip prio 5 handle 5 fw classid 1:14
 	    tc filter add dev eth0 parent 1:0 protocol ip prio 6 handle 6 fw classid 1:15
-	  </Screen>
+	  </screen>
 	  We have just told the kernel that packets that have a specific FWMARK value ( handle x fw ) go in the specified class ( classid x:x). Next you will see how to mark packets with iptables.
 	</para>
 
 	<para>
 	  First you have to understand how packet traverse the filters with iptables:
-	  <Screen>
+	  <screen>
 	    +------------+                +---------+               +-------------+
 	    Packet -| PREROUTING |--- routing-----| FORWARD |-------+-------| POSTROUTING |- Packets
 	    input   +------------+    decision    +-­-------+       |       +-------------+    out
@@ -9395,67 +9395,67 @@
 	    | INPUT |---- Local process -| OUTPUT |
 	    +-------+                    +--------+
 
-	  </Screen>
+	  </screen>
 	  I assume you have all your tables created and with default policy ACCEPT ( -P ACCEPT ) if you haven't poked with iptables yet, It should be ok by default. Ours private network is a class B with address 172.17.0.0/16 and public ip is 212.170.21.172
 	</para>
 
 	<para>
 	  Next we instruct the kernel to <emphasis>actually do NAT</emphasis>, so clients in the private network can start talking to the outside.
 
-	  <Screen>
+	  <screen>
 	    echo 1 > /proc/sys/net/ipv4/ip_forward
 	    iptables -t nat -A POSTROUTING -s 172.17.0.0/255.255.0.0 -o eth0 -j SNAT --to-source 212.170.21.172
-	  </Screen>
+	  </screen>
 
 	  Now check that packets are flowing through 1:15:
 
-	  <Screen>
+	  <screen>
 	    tc -s class show dev eth0
-	  </Screen>
+	  </screen>
 
 	</para>
 
 	<para>
 	  You can start marking packets adding rules to the PREROUTING chain in the mangle table.
 
-	  <Screen>
+	  <screen>
 	    iptables -t mangle -A PREROUTING -p icmp -j MARK --set-mark 0x1
 	    iptables -t mangle -A PREROUTING -p icmp -j RETURN
-	  </Screen>
+	  </screen>
 
 	  Now you should be able to see packet count increasing when pinging from machines within the private network to some site on the Internet. Check packet count increasing in 1:10
-	  <Screen>
+	  <screen>
 	    tc -s class show dev eth0
-	  </Screen>
+	  </screen>
 	  We have done a -j RETURN so packets don't traverse all rules. Icmp packets won't match other rules below RETURN. Keep that in mind.
 	  Now we can start adding more rules, lets do proper TOS handling:
 
-	  <Screen>
+	  <screen>
 	    iptables -t mangle -A PREROUTING -m tos --tos Minimize-Delay -j MARK --set-mark 0x1
 	    iptables -t mangle -A PREROUTING -m tos --tos Minimize-Delay -j RETURN
 	    iptables -t mangle -A PREROUTING -m tos --tos Minimize-Cost -j MARK --set-mark 0x5
 	    iptables -t mangle -A PREROUTING -m tos --tos Minimize-Cost -j RETURN
 	    iptables -t mangle -A PREROUTING -m tos --tos Maximize-Throughput -j MARK --set-mark 0x6
 	    iptables -t mangle -A PREROUTING -m tos --tos Maximize-Throughput -j RETURN
-	  </Screen>
+	  </screen>
 
 	  Now prioritize ssh packets:
-	  <Screen>
+	  <screen>
 	    iptables -t mangle -A PREROUTING -p tcp -m tcp --sport 22 -j MARK --set-mark 0x1
 	    iptables -t mangle -A PREROUTING -p tcp -m tcp --sport 22 -j RETURN
-	  </Screen>
+	  </screen>
 	  A good idea is to prioritize packets to begin tcp connections, those with SYN flag set:
-	  <Screen>
+	  <screen>
 	    iptables -t mangle -I PREROUTING -p tcp -m tcp --tcp-flags SYN,RST,ACK SYN -j MARK --set-mark 0x1
 	    iptables -t mangle -I PREROUTING -p tcp -m tcp --tcp-flags SYN,RST,ACK SYN -j RETURN
-	  </Screen>
+	  </screen>
 	  And so on.
 
 	  When we are done adding rules to PREROUTING in mangle, we terminate the PREROUTING table with:
 	  <!-- sport/dport 80 examples? -->
-	  <Screen>
+	  <screen>
 	    iptables -t mangle -A PREROUTING -j MARK --set-mark 0x6
-	  </Screen>
+	  </screen>
 	  So previously unmarked traffic goes in 1:15. In fact this last step is unnecessary since default class was 1:15, but I will mark them in order to be consistent with the whole setup, and furthermore it's useful to see the counter in that rule.
 	</para>
 
@@ -9472,11 +9472,11 @@
 	</para>
 	<para>
 	  If you find that some classes are full most of the time it would be a good idea to attach another queueing discipline to them so bandwith sharing is more fair:
-	  <Screen>
+	  <screen>
 	    tc qdisc add dev eth0 parent 1:13 handle 130: sfq perturb 10
 	    tc qdisc add dev eth0 parent 1:14 handle 140: sfq perturb 10
 	    tc qdisc add dev eth0 parent 1:15 handle 150: sfq perturb 10
-	  </Screen>
+	  </screen>
 	</para>
 
       </section>
@@ -10308,9 +10308,9 @@
 	      found <ulink url="ftp://ftp.netlab.ohio-state.edu/pub/jain/courses/cis788-97/virtual_lans/index.htm">here</ulink>.
 	      With this implementation, you can have your Linux box
 	      talk VLANs with machines like Cisco Catalyst, 3Com:
-	      &lcub;Corebuilder, Netbuilder II, SuperStack II switch
-	      630&rcub;, Extreme Ntwks Summit 48, Foundry:
-	      &lcub;ServerIronXL, FastIron&rcub;.
+	      {Corebuilder, Netbuilder II, SuperStack II switch
+	      630}, Extreme Ntwks Summit 48, Foundry:
+	      {ServerIronXL, FastIron}.
 	    </para>
 
 	    <para>
@@ -10397,13 +10397,13 @@
 
 	    <para>
 
-	      <Screen>
+	      <screen>
 		DEVICE=eth1,10Mbit,1Mbit
 		RATE=28Kbit
 		WEIGHT=2Kbit
 		PRIO=5
 		RULE=192.168.1.0/24
-	      </Screen>
+	      </screen>
 
 	    </para>
 
@@ -10427,9 +10427,9 @@
 	    </para>
 
 	    <para>
-	      <Screen>
+	      <screen>
 		# limit.conn -s SERVERIP -p SERVERPORT -l LIMIT
-	      </Screen>
+	      </screen>
 	    </para>
 
 	    <para>
@@ -10470,9 +10470,9 @@
 
 	    <para>
 	      Just run this on all machines participating in a service:
-	      <Screen>
+	      <screen>
 		# vrrpd -i eth0 -v 50 10.0.0.22
-	      </Screen>
+	      </screen>
 	    </para>
 
 	    <para>
@@ -10494,13 +10494,13 @@
 	    </para>
 
 	    <para>
-	      <Screen>
+	      <screen>
 		64 bytes from 10.0.0.22: icmp_seq=3 ttl=255 time=0.2 ms
 		64 bytes from 10.0.0.22: icmp_seq=4 ttl=255 time=0.2 ms
 		64 bytes from 10.0.0.22: icmp_seq=5 ttl=255 time=16.8 ms
 		64 bytes from 10.0.0.22: icmp_seq=6 ttl=255 time=1.8 ms
 		64 bytes from 10.0.0.22: icmp_seq=7 ttl=255 time=1.7 ms
-	      </Screen>
+	      </screen>
 	    </para>
 
 	    <para>
@@ -11181,7 +11181,7 @@
 
 	<listitem>
 	  <para>
-	    Lutz Pre&szlig;ler &lt;Lutz.Pressler%SerNet.DE&gt;
+	    Lutz Preßler &lt;Lutz.Pressler%SerNet.DE&gt;
 	  </para>
 	</listitem>
 
