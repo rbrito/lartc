@@ -3,6 +3,7 @@
     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <book lang="en">
   <title>Linux Advanced Routing &amp; Traffic Control HOWTO</title>
+
   <bookinfo>
     <authorgroup>
       <author>
@@ -68,11 +69,11 @@
       </revision>
     </revhistory>
 
-    <Abstract>
+    <abstract>
       <para>A very hands-on approach to <application>iproute2</application>,
 	traffic shaping and a bit of <application>netfilter</application>.
       </para>
-    </Abstract>
+    </abstract>
 
   </bookinfo>
 
@@ -4961,20 +4962,20 @@
 	two limitations arise:
       </para>
 
-      <Orderedlist>
-	<Listitem>
+      <orderedlist>
+	<listitem>
 	  <para>
 	    Only egress shaping is possible (an ingress qdisc exists, but its
 	    possibilities are very limited compared to classful qdiscs).
 	  </para>
-	</Listitem>
-	<Listitem>
+	</listitem>
+	<listitem>
 	  <para>
 	    A qdisc can only see traffic of one interface, global limitations can't be
 	    placed.
 	  </para>
-	</Listitem>
-      </Orderedlist>
+	</listitem>
+      </orderedlist>
 
       <para>
 	IMQ is there to help solve those two limitations. In short, you can put
@@ -5457,7 +5458,7 @@
 
     <para>
       All the following sections will assume you are trying to shape the traffic
-      going to <Literal remap="tt">HostA</Literal>. They will assume that the root class has been
+      going to <literal remap="tt">HostA</literal>. They will assume that the root class has been
       configured on 1: and that the class you want to send the selected traffic to
       is 1:1.
     </para>
@@ -5481,7 +5482,7 @@
       </para>
 
       <para>
-	The command line of <Literal remap="tt">tc filter</Literal> program, used to configure the filter,
+	The command line of <literal remap="tt">tc filter</literal> program, used to configure the filter,
 	consists of three parts: filter specification, a selector and an action.
 	The filter specification can be defined as:
       </para>
@@ -5497,13 +5498,13 @@
       </para>
 
       <para>
-	The <Literal remap="tt">protocol</Literal> field describes protocol that the filter will be
-	applied to. We will only discuss case of <Literal remap="tt">ip</Literal> protocol. The
-	<Literal remap="tt">preference</Literal> field (<Literal remap="tt">priority</Literal> can be used alternatively)
+	The <literal remap="tt">protocol</literal> field describes protocol that the filter will be
+	applied to. We will only discuss case of <literal remap="tt">ip</literal> protocol. The
+	<literal remap="tt">preference</literal> field (<literal remap="tt">priority</literal> can be used alternatively)
 	sets the priority of currently defined filter. This is important, since
 	you can have several filters (lists of rules) with different priorities.
 	Each list will be passed in the order the rules were added, then list with
-	lower priority (higher preference number) will be processed. The <Literal remap="tt">parent</Literal>
+	lower priority (higher preference number) will be processed. The <literal remap="tt">parent</literal>
 	field defines the CBQ tree top (e.g. 1:0), the filter should be attached
 	to.
       </para>
@@ -5535,10 +5536,10 @@
 	<para>
 	  For now, leave the first line alone - all these parameters describe
 	  the filter's hash tables. Focus on the selector line, containing
-	  <Literal remap="tt">match</Literal> keyword. This selector will match to IP headers, whose
+	  <literal remap="tt">match</literal> keyword. This selector will match to IP headers, whose
 	  second byte will be 0x10 (0010). As you can guess, the 00ff number is
 	  the match mask, telling the filter exactly which bits to match. Here
-	  it's 0xff, so the byte will match if it's exactly 0x10. The <Literal remap="tt">at</Literal>
+	  it's 0xff, so the byte will match if it's exactly 0x10. The <literal remap="tt">at</literal>
 	  keyword means that the match is to be started at specified offset (in
 	  bytes) -- in this case it's beginning of the packet.  Translating all
 	  that to human language, the packet will match if its Type of Service
@@ -5555,7 +5556,7 @@
 	</para>
 
 	<para>
-	  The <Literal remap="tt">nexthdr</Literal> option means next header encapsulated in the IP packet,
+	  The <literal remap="tt">nexthdr</literal> option means next header encapsulated in the IP packet,
 	  i.e. header of upper-layer protocol. The match will also start here
 	  at the beginning of the next header. The match should occur in the
 	  second, 32-bit word of the header. In TCP and UDP protocols this field
@@ -5567,7 +5568,7 @@
 
 	<para>
 	  Having understood all the above, we will find the following selector
-	  quite easy to read: <Literal remap="tt">match c0a80100 ffffff00 at 16</Literal>. What we
+	  quite easy to read: <literal remap="tt">match c0a80100 ffffff00 at 16</literal>. What we
 	  got here is a three byte match at 17-th byte, counting from the IP
 	  header start. This will match for packets with destination address
 	  anywhere in 192.168.1/24 network. After analyzing the examples, we
@@ -5597,10 +5598,10 @@
 	</para>
 
 	<para>
-	  One of the keywords <Literal remap="tt">u32</Literal>, <Literal remap="tt">u16</Literal> or <Literal remap="tt">u8</Literal> specifies
+	  One of the keywords <literal remap="tt">u32</literal>, <literal remap="tt">u16</literal> or <literal remap="tt">u8</literal> specifies
 	  length of the pattern in bits. PATTERN and MASK should follow, of length
 	  defined by the previous keyword. The OFFSET parameter is the offset,
-	  in bytes, to start matching. If <Literal remap="tt">nexthdr+</Literal> keyword is given,
+	  in bytes, to start matching. If <literal remap="tt">nexthdr+</literal> keyword is given,
 	  the offset is relative to start of the upper layer header.
 	</para>
 
@@ -5657,10 +5658,10 @@
 	  payload. Here we can see an example of using two selectors, the final result
 	  will be logical AND of their results. If we take a look at TCP header
 	  diagram, we can see that the ACK bit is second older bit (0x10) in the 14-th
-	  byte of the TCP header (<Literal remap="tt">at nexthdr+13</Literal>).  As for the second
-	  selector, if we'd like to make our life harder, we could write <Literal remap="tt">match u8
-	    0x06 0xff at 9</Literal> instead of using the specific selector <Literal remap="tt">protocol
-	    tcp</Literal>, because 6 is the number of TCP protocol, present in 10-th byte of
+	  byte of the TCP header (<literal remap="tt">at nexthdr+13</literal>).  As for the second
+	  selector, if we'd like to make our life harder, we could write <literal remap="tt">match u8
+	    0x06 0xff at 9</literal> instead of using the specific selector <literal remap="tt">protocol
+	    tcp</literal>, because 6 is the number of TCP protocol, present in 10-th byte of
 	  the IP header. On the other hand, in this example we couldn't use any
 	  specific selector for the first match - simply because there's no specific
 	  selector to match TCP ACK bits.
@@ -5692,7 +5693,7 @@
 
 	<para>
 	  The following table contains a list of all specific selectors
-	  the author of this section has found in the <Literal remap="tt">tc</Literal> program
+	  the author of this section has found in the <literal remap="tt">tc</literal> program
 	  source code. They simply make your life easier and increase readability
 	  of your filter's configuration.
 	</para>
@@ -5730,12 +5731,12 @@
 	<para>
 	  The above rule will match packets which have the TOS field set to 0x10.
 	  The TOS field starts at second byte of the packet and is one byte big,
-	  so we could write an equivalent general selector: <Literal remap="tt">match u8 0x10 0xff
-	    at 1</Literal>. This gives us hint to the internals of U32 filter -- the
+	  so we could write an equivalent general selector: <literal remap="tt">match u8 0x10 0xff
+	    at 1</literal>. This gives us hint to the internals of U32 filter -- the
 	  specific rules are always translated to general ones, and in this
 	  form they are stored in the kernel memory. This leads to another conclusion
-	  -- the <Literal remap="tt">tcp</Literal> and <Literal remap="tt">udp</Literal> selectors are exactly the same
-	  and this is why you can't use single <Literal remap="tt">match tcp dport 53 0xffff</Literal>
+	  -- the <literal remap="tt">tcp</literal> and <literal remap="tt">udp</literal> selectors are exactly the same
+	  and this is why you can't use single <literal remap="tt">match tcp dport 53 0xffff</literal>
 	  selector to match TCP packets sent to given port -- they will also
 	  match UDP packets sent to this port. You must remember to also specify
 	  the protocol and end up with the following rule:
@@ -7947,7 +7948,7 @@
 	round robin scheme. That is, like the CBQ qdisc it contains classes
 	into which arbitrary qdiscs can be plugged. All classes which have sufficient
 	demand will get bandwidth proportional to the weights associated with the classes.
-	The weights can be set manually using the <Literal remap="tt">tc</Literal> program. But they
+	The weights can be set manually using the <literal remap="tt">tc</literal> program. But they
 	can also be made automatically decreasing for classes transferring much data.
       </para>
 
@@ -8247,7 +8248,7 @@
 	author of the ipchains TOS-mangling code, puts it as follows:
       </para>
 
-      <BlockQuote>
+      <blockquote>
 	<para>
 	  Especially the "Minimum Delay" is important for me. I switch it on for
 	  "interactive" packets in my upstream (Linux) router. I'm
@@ -8255,7 +8256,7 @@
 	  way I get acceptable interactive performance while doing bulk
 	  downloads at the same time.
 	</para>
-      </BlockQuote>
+      </blockquote>
 
       <para>
 	The most common use is to set telnet &#38; ftp control connections to "Minimum
@@ -8484,7 +8485,7 @@
       </para>
 
       <para>
-	<OrderedList>
+	<orderedlist>
 	  <listitem>
 	    <para>
 	      "Mark" packets of destination port 80 with value 2
@@ -8516,7 +8517,7 @@
 	      </screen>
 	    </para>
 	  </listitem>
-	</OrderedList>
+	</orderedlist>
       </para>
 
       <para>
@@ -9652,7 +9653,7 @@
 	</para>
 
 	<para>
-	  <OrderedList>
+	  <orderedlist>
 	    <listitem>
 	      <para>
 		Assign an IP address to both interfaces, the 'left' and the 'right'
@@ -9675,7 +9676,7 @@
 		of your interfaces on the left and on the right side
 	      </para>
 	    </listitem>
-	  </OrderedList>
+	  </orderedlist>
 	</para>
 
 	<para>
@@ -9805,7 +9806,7 @@
     <section id="lartc.dynamic-routing.ospf">
       <sectioninfo>
 	<author>
-	  <FirstName>Pedro</FirstName><Surname>Larroy Tovar</Surname>
+	  <firstname>Pedro</firstname><surname>Larroy Tovar</surname>
 	  <affiliation>
 	    <address>
 	      <email>piotr%member.fsf.org</email>
@@ -10626,8 +10627,7 @@
 	    </ulink>
 	  </term>
 	  <listitem>
-	    <para>
-	      <Anchor id="CAR"/>
+	    <para id="CAR">
 	      From the helpful folks of Cisco who have the laudable habit
 	      of putting their documentation online. Cisco syntax is
 	      different but the concepts are the same, except that we can
