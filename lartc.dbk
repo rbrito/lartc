@@ -3,7 +3,6 @@
     "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <book lang="en">
   <title>Linux Advanced Routing &amp; Traffic Control HOWTO</title>
-
   <bookinfo>
     <authorgroup>
       <author>
@@ -88,7 +87,6 @@
     </para>
 
     <para>
-
       <itemizedlist>
 	<listitem>
 	  <para>
@@ -113,7 +111,6 @@
 	    The staff of Casema Internet
 	  </para>
 	</listitem>
-
       </itemizedlist>
     </para>
   </chapter>
@@ -122,25 +119,21 @@
     <title>Introduction</title>
 
     <para>
-      Welcome, gentle reader.
+      Welcome, gentle reader.  This document hopes to enlighten you on
+      how to do more with Linux 2.2/2.4 routing. Unbeknownst to most
+      users, you already run tools which allow you to do spectacular
+      things. Commands like <command>route</command>
+      and <command>ifconfig</command> are actually very thin wrappers
+      for the very powerful iproute2 infrastructure.
     </para>
 
     <para>
-      This document hopes to enlighten you on how to do more with Linux 2.2/2.4
-      routing. Unbeknownst to most users, you already run tools which allow you to
-      do spectacular things. Commands like <command>route</command> and
-      <command>ifconfig</command> are actually
-      very thin wrappers for the very powerful iproute2 infrastructure.
-    </para>
-
-    <para>
-      I hope that this HOWTO will become as readable as the ones by Rusty Russell
-      of (amongst other things) netfilter fame.
+      I hope that this HOWTO will become as readable as the ones by
+      Rusty Russell of (amongst other things) netfilter fame.
     </para>
 
     <para>
       You can always reach us by writing to the
-
       <ulink url="mailto:HOWTO@ds9a.nl">HOWTO team</ulink>.  However,
       please consider posting to the mailing list (see the relevant
       section) if you have questions which are not directly related to
@@ -159,34 +152,36 @@
       <title>Disclaimer &amp; License</title>
 
       <para>
-	This document is distributed in the hope that it will be
-	useful, but WITHOUT ANY WARRANTY; without even the implied
-	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-	PURPOSE.
+	This document is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
       </para>
 
       <para>
-	In short, if your STM-64 backbone breaks down and distributes pornography to
-	your most esteemed customers - it's never our fault. Sorry.
+	In short, if your STM-64 backbone breaks down and distributes
+	pornography to your most esteemed customers - it's never our
+	fault. Sorry.
       </para>
 
       <para>
 	Copyright (c) 2002 by bert hubert, Gregory Maxwell, Martijn van
-	Oosterhout, Remco van Mook, Paul B. Schroeder and others. This material may
-	be distributed only subject to the terms and conditions set forth in the
-	Open Publication License, v1.0 or later (the latest version is presently
-	available at http://www.opencontent.org/openpub/).
+	Oosterhout, Remco van Mook, Paul B. Schroeder and others. This
+	material may be distributed only subject to the terms and
+	conditions set forth in the Open Publication License, v1.0 or
+	later (the latest version is presently available at
+	http://www.opencontent.org/openpub/).
       </para>
 
       <para>
-	Please freely copy and distribute (sell or give away) this document in any
-	format. It's requested that corrections and/or comments be forwarded to the
-	document maintainer.
+	Please freely copy and distribute (sell or give away) this
+	document in any format. It's requested that corrections and/or
+	comments be forwarded to the document maintainer.
       </para>
 
       <para>
-	It is also requested that if you publish this HOWTO in hardcopy that you
-	send the authors some samples for <quote>review purposes</quote> :-)
+	It is also requested that if you publish this HOWTO in hardcopy
+	that you send the authors some samples for <quote>review
+	purposes</quote> :-)
       </para>
     </section>
 
@@ -195,7 +190,8 @@
 
       <para>
 	As the title implies, this is the <quote>Advanced</quote> HOWTO.
-	While by no means rocket science, some prior knowledge is assumed.
+	While by no means rocket science, some prior knowledge is
+	assumed.
       </para>
 
       <para>
@@ -207,17 +203,20 @@
 		Rusty Russell's networking-concepts-HOWTO</ulink>
 	    </term>
 	    <listitem>
-	      <para>Very nice introduction, explaining what a network is, and how it is
-		connected to other networks.
+	      <para>
+		Very nice introduction, explaining what a network is,
+		and how it is connected to other networks.
 	      </para>
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
 	    <term>Linux Networking-HOWTO (Previously the Net-3 HOWTO)</term>
 	    <listitem>
-	      <para>Great stuff, although very verbose. It teaches you a lot of stuff
-		that's already configured if you are able to connect to the Internet.
-		Should be located in <filename>/usr/doc/HOWTO/NET3-4-HOWTO.txt</filename>
+	      <para>
+		Great stuff, although very verbose. It teaches you a lot
+		of stuff that's already configured if you are able to
+		connect to the Internet.  Should be located
+		in <filename>/usr/doc/HOWTO/NET3-4-HOWTO.txt</filename>
 		but can be also be found
 		<ulink url="http://www.linuxports.com/howto/networking">online</ulink>.
 	      </para>
@@ -236,57 +235,67 @@
 
       <itemizedlist>
 	<listitem>
-	  <para>Throttle bandwidth for certain computers
+	  <para>
+	    Throttle bandwidth for certain computers
 	  </para>
 	</listitem>
 
 	<listitem>
-	  <para>Throttle bandwidth TO certain computers
+	  <para>
+	    Throttle bandwidth TO certain computers
 	  </para>
 	</listitem>
 
 	<listitem>
-	  <para>Help you to fairly share your bandwidth
+	  <para>
+	    Help you to fairly share your bandwidth
 	  </para>
 	</listitem>
 
 	<listitem>
-	  <para>Protect your network from DoS attacks
+	  <para>
+	    Protect your network from DoS attacks
 	  </para>
 	</listitem>
 
 	<listitem>
-	  <para>Protect the Internet from your customers
+	  <para>
+	    Protect the Internet from your customers
 	  </para>
 	</listitem>
 
 	<listitem>
-	  <para>Multiplex several servers as one, for load balancing or
+	  <para>
+	    Multiplex several servers as one, for load balancing or
 	    enhanced availability
 	  </para>
 	</listitem>
 
 	<listitem>
-	  <para>Restrict access to your computers
+	  <para>
+	    Restrict access to your computers
 	  </para>
 	</listitem>
 
 	<listitem>
-	  <para>Limit access of your users to other hosts
+	  <para>
+	    Limit access of your users to other hosts
 	  </para>
 	</listitem>
 
 	<listitem>
-	  <para>Do routing based on user id (yes!), MAC address, source IP
+	  <para>
+	    Do routing based on user id (yes!), MAC address, source IP
 	    address, port, type of service, time of day or content
 	  </para>
 	</listitem>
       </itemizedlist>
 
       <para>
-	Currently, not many people are using these advanced features. This is for
-	several reasons. While the provided documentation is verbose, it is not very
-	hands-on. Traffic control is almost undocumented.
+	Currently, not many people are using these advanced features.
+	This is for several reasons. While the provided documentation is
+	verbose, it is not very hands-on. Traffic control is almost
+	undocumented.
       </para>
 
     </section>
@@ -295,33 +304,35 @@
       <title>Housekeeping notes</title>
 
       <para>
-	There are several things which should be noted about this document. While I
-	wrote most of it, I really don't want it to stay that way. I am a strong
-	believer in Open Source, so I encourage you to send feedback, updates,
-	patches etcetera. Do not hesitate to inform me of typos or plain old errors.
-	If my English sounds somewhat wooden, please realize that I'm not a native
-	speaker. Feel free to send suggestions.
+	There are several things which should be noted about this
+	document. While I wrote most of it, I really don't want it to
+	stay that way. I am a strong believer in Open Source, so I
+	encourage you to send feedback, updates, patches etcetera. Do
+	not hesitate to inform me of typos or plain old errors.  If my
+	English sounds somewhat wooden, please realize that I'm not a
+	native speaker. Feel free to send suggestions.
       </para>
 
       <para>
-	If you feel you are better qualified to maintain a section, or think that
-	you can author and maintain new sections, you are welcome to do so. The SGML
-	of this HOWTO is available via CVS, I very much envision more people
-	working on it.
+	If you feel you are better qualified to maintain a section, or
+	think that you can author and maintain new sections, you are
+	welcome to do so. The SGML of this HOWTO is available via CVS, I
+	very much envision more people working on it.
       </para>
 
       <para>
-	In aid of this, you will find lots of FIXME notices. Patches are always
-	welcome! Wherever you find a FIXME, you should know that you are treading in
-	unknown territory. This is not to say that there are no errors elsewhere,
-	but be extra careful. If you have validated something, please let us know so
-	we can remove the FIXME notice.
+	In aid of this, you will find lots of FIXME notices. Patches are
+	always welcome! Wherever you find a FIXME, you should know that
+	you are treading in unknown territory. This is not to say that
+	there are no errors elsewhere, but be extra careful. If you have
+	validated something, please let us know so we can remove the
+	FIXME notice.
       </para>
 
       <para>
-	About this HOWTO, I will take some liberties along the road. For example, I
-	postulate a 10Mbit Internet connection, while I know full well that those
-	are not very common.
+	About this HOWTO, I will take some liberties along the road. For
+	example, I postulate a 10Mbit Internet connection, while I know
+	full well that those are not very common.
       </para>
 
     </section>
@@ -335,14 +346,15 @@
       </para>
 
       <para>
-	We now have anonymous CVS access available to the world at large. This is
-	good in a number of ways. You can easily upgrade to newer versions of this
-	HOWTO and submitting patches is no work at all.
+	We now have anonymous CVS access available to the world at
+	large. This is good in a number of ways. You can easily upgrade
+	to newer versions of this HOWTO and submitting patches is no
+	work at all.
       </para>
 
       <para>
-	Furthermore, it allows the authors to work on the source independently,
-	which is good too.
+	Furthermore, it allows the authors to work on the source
+	independently, which is good too.
       </para>
 
       <screen width="80">
@@ -356,23 +368,23 @@
 
       <para>
 	If you made changes and want to contribute them, run <userinput>
-	  cvs -z3 diff -uBb</userinput>,
-	and mail the output to <email>howto@ds9a.nl</email>, we
-	can then integrate it easily. Thanks! Please make sure that you edit the
-	.db file, by the way, the other files are generated from that one.
+	cvs -z3 diff -uBb</userinput>, and mail the output
+	to <email>howto@ds9a.nl</email>, we can then integrate it
+	easily.  Thanks! Please make sure that you edit the .db file, by
+	the way, the other files are generated from that one.
       </para>
 
       <para>
-	A Makefile is supplied which should help you create postscript, dvi, pdf,
-	html and plain text. You may need to install
+	A Makefile is supplied which should help you create postscript,
+	dvi, pdf, html and plain text. You may need to install
 	<application>docbook</application>, <application>docbook-utils</application>,
 	<application>ghostscript</application> and <application>tetex</application>
 	to get all formats.
       </para>
 
       <para>
-	Be careful not to edit 2.4routing.sgml! It contains an older version of the
-	HOWTO. The right file is lartc.db.
+	Be careful not to edit 2.4routing.sgml! It contains an older
+	version of the HOWTO. The right file is lartc.db.
       </para>
     </section>
 
@@ -380,18 +392,20 @@
       <title>Mailing list</title>
 
       <para>
-	The authors receive an increasing amount of mail about this HOWTO. Because
-	of the clear interest of the community, it has been decided to start a
-	mailinglist where people can talk to each other about Advanced Routing and
-	Traffic Control. You can subscribe to the list
+	The authors receive an increasing amount of mail about this
+	HOWTO. Because of the clear interest of the community, it has
+	been decided to start a mailinglist where people can talk to
+	each other about Advanced Routing and Traffic Control. You can
+	subscribe to the list
 	<ulink url="http://mailman.ds9a.nl/mailman/listinfo/lartc">here</ulink>.
       </para>
 
       <para>
-	It should be pointed out that the authors are very hesitant of answering
-	questions not asked on the list. We would like the archive of the list to
-	become some kind of knowledge base. If you have a question, please search
-	the archive, and then post to the mailinglist.
+	It should be pointed out that the authors are very hesitant of
+	answering questions not asked on the list. We would like the
+	archive of the list to become some kind of knowledge base. If
+	you have a question, please search the archive, and then post to
+	the mailinglist.
       </para>
 
     </section>
@@ -400,26 +414,29 @@
       <title>Layout of this document</title>
 
       <para>
-	We will be doing interesting stuff almost immediately, which also means that
-	there will initially be parts that are explained incompletely or are not
-	perfect. Please gloss over these parts and assume that all will become clear.
+	We will be doing interesting stuff almost immediately, which
+	also means that there will initially be parts that are explained
+	incompletely or are not perfect. Please gloss over these parts
+	and assume that all will become clear.
       </para>
 
       <para>
-	Routing and filtering are two distinct things. Filtering is documented very
-	well by Rusty's HOWTOs, available here:
+	Routing and filtering are two distinct things. Filtering is
+	documented very well by Rusty's HOWTOs, available here:
       </para>
 
       <itemizedlist>
 	<listitem>
-	  <para><ulink url="http://netfilter.samba.org/unreliable-guides/">
-	      Rusty's Remarkably Unreliable Guides</ulink>
+	  <para>
+	    <ulink url="http://netfilter.samba.org/unreliable-guides/">Rusty's
+	    Remarkably Unreliable Guides</ulink>
 	  </para>
 	</listitem>
       </itemizedlist>
 
-      <para>We will be focusing mostly on what is possible by combining netfilter
-	and iproute2.
+      <para>
+	We will be focusing mostly on what is possible by combining
+	netfilter and iproute2.
       </para>
 
     </section>
@@ -433,34 +450,35 @@
 
       <para>
 	Most Linux distributions, and most UNIX's, currently use the
-	venerable <command>arp</command>, <command>ifconfig</command> and
-	<command>route</command> commands.
-	While these tools work, they show some unexpected behaviour under Linux 2.2
-	and up.
-	For example, GRE tunnels are an integral part of routing these days, but
-	require completely different tools.
+	venerable <command>arp</command>, <command>ifconfig</command>
+	and <command>route</command> commands.  While these tools work,
+	they show some unexpected behaviour under Linux 2.2 and up.  For
+	example, GRE tunnels are an integral part of routing these days,
+	but require completely different tools.
       </para>
 
       <para>
-	With <application>iproute2</application>, tunnels are an integral part of
-	the tool set.
+	With <application>iproute2</application>, tunnels are an
+	integral part of the tool set.
       </para>
 
       <para>
-	The 2.2 and above Linux kernels include a completely redesigned network
-	subsystem. This new networking code brings Linux performance and a feature
-	set with little competition in the general OS arena. In fact, the new
-	routing, filtering, and classifying code is more featureful than the one
-	provided by many dedicated routers and firewalls and traffic shaping
+	The 2.2 and above Linux kernels include a completely redesigned
+	network subsystem. This new networking code brings Linux
+	performance and a feature set with little competition in the
+	general OS arena. In fact, the new routing, filtering, and
+	classifying code is more featureful than the one provided by
+	many dedicated routers and firewalls and traffic shaping
 	products.
       </para>
 
       <para>
-	As new networking concepts have been invented, people have found ways to
-	plaster them on top of the existing framework in existing OSes. This
-	constant layering of cruft has lead to networking code that is filled with
-	strange behaviour, much like most human languages. In the past, Linux
-	emulated SunOS's handling of many of these things, which was not ideal.
+	As new networking concepts have been invented, people have found
+	ways to plaster them on top of the existing framework in
+	existing OSes. This constant layering of cruft has lead to
+	networking code that is filled with strange behaviour, much like
+	most human languages. In the past, Linux emulated SunOS's
+	handling of many of these things, which was not ideal.
       </para>
 
       <para>
@@ -473,9 +491,10 @@
       <title>iproute2 tour</title>
 
       <para>
-	Linux has a sophisticated system for bandwidth provisioning called Traffic
-	Control. This system supports various method for classifying, prioritizing,
-	sharing, and limiting both inbound and outbound traffic.
+	Linux has a sophisticated system for bandwidth provisioning
+	called Traffic Control. This system supports various method for
+	classifying, prioritizing, sharing, and limiting both inbound
+	and outbound traffic.
       </para>
 
       <para>
@@ -488,9 +507,9 @@
       <title>Prerequisites</title>
 
       <para>
-	You should make sure that you have the userland tools
-	installed. This package is called 'iproute' on both RedHat and
-	Debian, and may otherwise be found
+	You should make sure that you have the userland tools installed.
+	This package is called 'iproute' on both RedHat and Debian, and
+	may otherwise be found
 	at <filename>ftp://ftp.inr.ac.ru/ip-routing/iproute2-2.2.4-now-ss??????.tar.gz</filename>.
       </para>
 
@@ -501,9 +520,10 @@
       </para>
 
       <para>
-	Some parts of iproute require you to have certain kernel options enabled. It
-	should also be noted that all releases of RedHat up to and including 6.2
-	come without most of the traffic control features in the default kernel.
+	Some parts of iproute require you to have certain kernel options
+	enabled.  It should also be noted that all releases of RedHat up
+	to and including 6.2 come without most of the traffic control
+	features in the default kernel.
       </para>
 
       <para>
@@ -511,8 +531,8 @@
       </para>
 
       <para>
-	Also make sure that you have netlink support, should you choose to roll your
-	own kernel. Iproute2 needs it.
+	Also make sure that you have netlink support, should you choose
+	to roll your own kernel. Iproute2 needs it.
       </para>
 
     </section>
@@ -582,7 +602,6 @@
 	  It does show us the MAC addresses though, the hardware
 	  identifier of our ethernet interfaces.
 	</para>
-
       </section>
 
       <section>
@@ -652,7 +671,6 @@
 
       <section>
 	<title><command>ip</command> shows us our routes</title>
-
 	<para>
 	  Well, we now know how to find 10.x.y.z addresses, and we are
 	  able to reach 212.64.94.1. This is not enough however, so we
@@ -695,7 +713,6 @@
 	  127.0.0.0       0.0.0.0         255.0.0.0       U     0      0        0 lo
 	  0.0.0.0         212.64.94.1     0.0.0.0         UG    0      0        0 ppp0
 	</screen>
-
       </section>
     </section>
 
@@ -705,7 +722,7 @@
       <para>
 	ARP is the Address Resolution Protocol as described in
 	<ulink url="http://www.faqs.org/rfcs/rfc826.html">RFC
-	  826</ulink>.  ARP is used by a networked machine to resolve the
+	826</ulink>.  ARP is used by a networked machine to resolve the
 	hardware location/address of another machine on the same local
 	network.  Machines on the Internet are generally known by their
 	names which resolve to IP addresses.  This is how a machine on
@@ -931,7 +948,6 @@
 	And we are done. It is left as an exercise for the reader to
 	implement this in ip-up.
       </para>
-
     </section>
 
     <section id="lartc.rpdb.multiple-links">
@@ -978,13 +994,13 @@
 	  Let <command>$IF1</command> be the name of the first interface
 	  (if1 in the picture above) and <command>$IF2</command> the
 	  name of the second interface.  Then
-	  let <command>$IP1</command> be the IP address associated 
+	  let <command>$IP1</command> be the IP address associated
 	  with <command>$IF1</command> and <command>$IP2</command> the
-	  IP address associated with
-	  <command>$IF2</command>.  Next, let <command>$P1</command> be
-	  the IP address of the gateway at Provider 1,
-	  and <command>$P2</command> the IP address of the gateway at
-	  provider 2.  Finally, let <command>$P1_NET</command> be the IP
+	  IP address associated with <command>$IF2</command>.  Next,
+	  let <command>$P1</command> be the IP address of the gateway at
+	  Provider 1, and <command>$P2</command> the IP address of the
+	  gateway at provider 2.  Finally,
+	  let <command>$P1_NET</command> be the IP
 	  network <command>$P1</command> is in,
 	  and <command>$P2_NET</command> the IP
 	  network <command>$P2</command> is in.
@@ -1097,15 +1113,17 @@
 	</para>
 
 	<para>
-	  Note that balancing will not be perfect, as it is route
-	  based, and routes are cached. This means that routes to
-	  often-used sites will always be over the same provider.
+	  Note that balancing will not be perfect, as it is route based,
+	  and routes are cached. This means that routes to often-used
+	  sites will always be over the same provider.
 	</para>
+
 	<para>
-	  Furthermore, if you really want to do this, you probably
-	  also want to look at Julian Anastasov's patches
-	  at <ulink url="http://www.ssi.bg/~ja/#routes">http://www.ssi.bg/~ja/#routes
-	  </ulink>, Julian's route patch page. They will make things nicer to work with.
+	  Furthermore, if you really want to do this, you probably also
+	  want to look at Julian Anastasov's patches
+	  at <ulink url="http://www.ssi.bg/~ja/#routes">http://www.ssi.bg/~ja/#routes</ulink>,
+	  Julian's route patch page. They will make things nicer to work
+	  with.
 	</para>
       </section>
     </section>
@@ -1115,9 +1133,9 @@
     <title>GRE and other tunnels</title>
 
     <para>
-      There are 3 kinds of tunnels in Linux. There's IP in IP
-      tunneling, GRE tunneling and tunnels that live outside the
-      kernel (like, for example PPTP).
+      There are 3 kinds of tunnels in Linux. There's IP in IP tunneling,
+      GRE tunneling and tunnels that live outside the kernel (like, for
+      example PPTP).
     </para>
 
     <section id="lartc.tunnel.remarks">
@@ -1138,7 +1156,6 @@
 	networks with tunnels. Oh, and of course, the fastest way to dig
 	a tunnel is to dig at both sides.
       </para>
-
     </section>
 
     <section id="lartc.tunnel.ip-ip">
@@ -1442,23 +1459,25 @@
     </para>
 
     <para>
-      As far as I am concerned, this IPv6-IPv4 tunneling is not per definition
-      GRE tunneling. You could tunnel IPv6 over IPv4 by means of GRE tunnel devices
-      (GRE tunnels ANY to IPv4), but the device used here ("sit") only tunnels
-      IPv6 over IPv4 and is therefore something different.
+      As far as I am concerned, this IPv6-IPv4 tunneling is not per
+      definition GRE tunneling. You could tunnel IPv6 over IPv4 by means
+      of GRE tunnel devices (GRE tunnels ANY to IPv4), but the device
+      used here ("sit") only tunnels IPv6 over IPv4 and is therefore
+      something different.
     </para>
 
     <section id="lartc.tunnel-ipv6.addressing">
       <title>IPv6 Tunneling</title>
 
       <para>
-	This is another application of the tunneling capabilities of Linux. It is
-	popular among the IPv6 early adopters, or pioneers if you like.
-	The 'hands-on' example described below is certainly not the only way
-	to do IPv6 tunneling. However, it is the method that is often used to tunnel
-	between Linux and a Cisco IPv6 capable router and experience tells us that
-	this is just the thing many people are after. Ten to one this applies to
-	you too ;-)
+	This is another application of the tunneling capabilities of
+	Linux.  It is popular among the IPv6 early adopters, or pioneers
+	if you like.  The 'hands-on' example described below is
+	certainly not the only way to do IPv6 tunneling.  However, it is
+	the method that is often used to tunnel between Linux and a
+	Cisco IPv6 capable router and experience tells us that this is
+	just the thing many people are after.  Ten to one this applies
+	to you too ;-)
       </para>
 
       <para>
@@ -1466,13 +1485,15 @@
       </para>
 
       <para>
-	IPv6 addresses are, compared to IPv4 addresses, really big: 128 bits
-	against 32 bits. And this provides us just with the thing we need: many, many
-	IP-addresses: 340,282,266,920,938,463,463,374,607,431,768,211,465 to be
-	precise. Apart from this, IPv6 (or IPng, for IP Next Generation) is supposed
-	to provide for smaller routing tables on the Internet's backbone routers,
-	simpler configuration of equipment, better security at the IP level and
-	better support for QoS.
+	IPv6 addresses are, compared to IPv4 addresses, really big: 128
+	bits against 32 bits. And this provides us just with the thing
+	we need: many, many IP-addresses:
+	340,282,266,920,938,463,463,374,607,431,768,211,465 to be
+	precise.  Apart from this, IPv6 (or IPng, for IP Next
+	Generation) is supposed to provide for smaller routing tables on
+	the Internet's backbone routers, simpler configuration of
+	equipment, better security at the IP level and better support
+	for QoS.
       </para>
 
       <para>
@@ -1480,12 +1501,11 @@
       </para>
 
       <para>
-	Writing down IPv6 addresses can be quite a burden. Therefore, to make
-	life easier there are some rules:
+	Writing down IPv6 addresses can be quite a burden. Therefore, to
+	make life easier there are some rules:
       </para>
 
       <para>
-
 	<itemizedlist>
 	  <listitem>
 	    <para>
@@ -1741,8 +1761,8 @@
       There are two kinds of IPSEC available for Linux these days. For
       2.2 and 2.4, there is FreeS/WAN, which was the first major
       implementation. They have <ulink url="http://www.freeswan.org/">an
-	official site</ulink> and <ulink url="http://www.freeswan.ca"> an
-	unofficial one</ulink> that is actually maintained. FreeS/WAN has
+      official site</ulink> and <ulink url="http://www.freeswan.ca">an
+      unofficial one</ulink> that is actually maintained. FreeS/WAN has
       traditionally not been merged with the mainline kernel for a
       number of reasons. Most often mentioned are 'political' issues
       with Americans working on crypto tainting its
@@ -1754,7 +1774,7 @@
     <para>
       Additionally, <ulink url="http://www.edlug.ed.ac.uk/archive/Sep2002/msg00244.html">many</ulink>
       parties <ulink url="http://lists.freeswan.org/pipermail/design/2002-November/003901.html">have
-	voiced worries</ulink> about the quality of the code. To setup
+      voiced worries</ulink> about the quality of the code. To setup
       FreeS/WAN, a lot
       of <ulink url="http://www.freeswan.ca/docs/freeswan-1.99/doc/index.html">documentation</ulink>
       is <ulink url="http://www.freeswan.org/doc.html">available</ulink>.
